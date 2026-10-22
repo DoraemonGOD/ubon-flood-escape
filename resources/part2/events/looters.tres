@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"looters_paid"
+weight = 1
+journal_lines = Array[String](["พวกเขาหยิบของไปสองอย่างแล้วหายไปในความมืด"])
+lose_random_supplies = 2
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ยอมให้ของไปบ้าง"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"looters_left"
+weight = 50
+journal_lines = Array[String](["พวกเขาถอยไปเมื่อเห็นว่าเราไม่ยอม"])
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"looters_fight"
+weight = 50
+journal_lines = Array[String](["ชุลมุนกันอยู่พักหนึ่ง {target} ได้รับบาดเจ็บ และของหายไปหนึ่งอย่าง"])
+lose_random_supplies = 1
+condition_target = 2
+condition = 2
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ไล่ด้วยไม้พาย"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"looters_light"
+weight = 1
+journal_lines = Array[String](["แสงไฟทำให้พวกเขาตกใจ รีบพายหนีไป"])
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ส่องไฟฉายใส่หน้าแล้วตะโกนไล่"
+required_item = &"flashlight"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"looters"
+title = "เรือแปลกหน้าในความมืด"
+text = "เรือลำหนึ่งค่อย ๆ พายเข้ามาเงียบ ๆ คนบนเรือจ้องมองเสบียงของเราไม่วางตา"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5"), SubResource("Choice_7")])
+min_day = 5
+max_day = 28
+weight = 8
+once = true
+locations = PackedStringArray("village", "market", "field")
+time_of_day = 3

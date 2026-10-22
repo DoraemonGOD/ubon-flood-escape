@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"evac_wait"
+weight = 1
+journal_lines = Array[String](["เราลังเลจนรถออกไป เจ้าหน้าที่บอกว่ารอบหน้าอีกหลายวัน"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ยังไม่ไป"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"evac_go"
+weight = 1
+journal_lines = Array[String](["ทุกคนปีนขึ้นสะพาน ขึ้นรถทหารไปยังศูนย์อพยพในตัวเมือง"])
+ending = &"army_evac"
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "ขึ้นรถไปศูนย์อพยพ"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"army_evac"
+title = "รถอพยพมาถึง"
+text = "เช้านี้รถทหารคันใหญ่จอดบนสะพาน เจ้าหน้าที่ขานชื่อตามบัญชี — ชื่อครอบครัวของเราอยู่ในนั้น!"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4")])
+min_day = 15
+max_day = 99
+weight = 60
+once = false
+required_flags = PackedStringArray("army_list")
+locations = PackedStringArray("highway")
+time_of_day = 0

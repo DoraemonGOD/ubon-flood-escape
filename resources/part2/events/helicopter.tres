@@ -1,0 +1,72 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"heli_wave_ok"
+weight = 20
+journal_lines = Array[String](["นักบินเห็นเรา! เฮลิคอปเตอร์หย่อนบันไดลงมารับทุกคน"])
+ending = &"rescued_air"
+
+[sub_resource type="Resource" id="Outcome_2"]
+script = ExtResource("3_outcome")
+id = &"heli_wave_fail"
+weight = 80
+journal_lines = Array[String](["เฮลิคอปเตอร์บินผ่านไป เสียงใบพัดค่อย ๆ จางหาย"])
+
+[sub_resource type="Resource" id="Choice_3"]
+script = ExtResource("2_choice")
+label = "โบกเสื้อสุดแรง"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1"), SubResource("Outcome_2")])
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"heli_shout_ok"
+weight = 10
+journal_lines = Array[String](["ไม่น่าเชื่อ นักบินหันมาทางเรา!"])
+ending = &"rescued_air"
+
+[sub_resource type="Resource" id="Outcome_5"]
+script = ExtResource("3_outcome")
+id = &"heli_shout_fail"
+weight = 90
+journal_lines = Array[String](["เสียงใบพัดกลบเสียงเราจนหมด"])
+
+[sub_resource type="Resource" id="Choice_6"]
+script = ExtResource("2_choice")
+label = "ตะโกนพร้อมกันทุกคน"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_4"), SubResource("Outcome_5")])
+
+[sub_resource type="Resource" id="Outcome_7"]
+script = ExtResource("3_outcome")
+id = &"heli_light_ok"
+weight = 45
+journal_lines = Array[String](["แสงไฟวาบเรียกความสนใจได้ เฮลิคอปเตอร์วนกลับมารับเรา"])
+ending = &"rescued_air"
+
+[sub_resource type="Resource" id="Outcome_8"]
+script = ExtResource("3_outcome")
+id = &"heli_light_fail"
+weight = 55
+journal_lines = Array[String](["กลางวันแสงไฟฉายสว่างไม่พอ เฮลิคอปเตอร์บินผ่านไป"])
+
+[sub_resource type="Resource" id="Choice_9"]
+script = ExtResource("2_choice")
+label = "ส่องไฟฉายสะท้อนส่งสัญญาณ"
+required_item = &"flashlight"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_7"), SubResource("Outcome_8")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"helicopter"
+title = "เฮลิคอปเตอร์บินผ่าน"
+text = "เสียงใบพัดดังมาจากฟ้า เฮลิคอปเตอร์กู้ภัยบินต่ำเลียบผิวน้ำ ห่างไปไม่ไกล"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_3"), SubResource("Choice_6"), SubResource("Choice_9")])
+min_day = 9
+max_day = 99
+weight = 8
+once = false
+time_of_day = 1

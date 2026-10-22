@@ -1,0 +1,65 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"herbs_skip"
+weight = 1
+journal_lines = Array[String](["เราปล่อยต้นไม้พวกนั้นไว้"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ไม่แน่ใจ อย่าเสี่ยงดีกว่า"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"herbs_lucky"
+weight = 40
+journal_lines = Array[String](["เดาถูก! ได้ยาต้มแก้ไข้มาหม้อหนึ่ง"])
+supply_changes = {
+"medicine": 1
+}
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"herbs_bad"
+weight = 60
+journal_lines = Array[String](["ยาต้มรสขมจัด {target} กินแล้วท้องเสีย"])
+condition_target = 2
+condition = 1
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ลองเก็บมาต้มเอง"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"herbs_grandpa"
+weight = 1
+journal_lines = Array[String](["ตาบุญเก็บใบฟ้าทะลายโจรมาต้ม ได้ยาแก้ไข้ไว้สองหม้อ"])
+supply_changes = {
+"medicine": 2
+}
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ให้ตาบุญเลือกใบไม้ต้มยา"
+required_survivor = &"grandpa"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"grandpa_herbs"
+title = "ใบไม้ข้างตลิ่ง"
+text = "ต้นไม้ริมน้ำมีใบเขียวสดขึ้นอยู่เต็ม บางต้นต้มกินแก้ไข้ได้ — ถ้ารู้ว่าต้นไหน"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5"), SubResource("Choice_7")])
+min_day = 3
+max_day = 99
+weight = 14
+once = true
+time_of_day = 1

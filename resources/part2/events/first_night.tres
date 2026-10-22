@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"stay"
+weight = 1
+journal_lines = Array[String](["คืนแรกเราอยู่บนเรือ เอาเสื้อคลุมหัวบังฝนกันทั้งคืน", "ไม่มีใครหลับสนิท แต่ทุกคนยังอยู่ครบ"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "อยู่บนเรือ รอให้ฝนเบาลง"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"shelter_found"
+weight = 60
+journal_lines = Array[String](["เราพายฝ่าฝนไปหาแสงไฟจากบ้านยกพื้นหลังหนึ่ง ป้าเจ้าของบ้านให้เราหลบใต้ชายคาได้สองคืน"])
+shelter_nights = 2
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"shelter_failed"
+weight = 40
+journal_lines = Array[String](["กระแสน้ำแรงเกินกว่าจะพายเข้าใกล้บ้านหลังไหนได้", "{subject} เปียกโชกทั้งคืนจนตัวสั่น"])
+condition_target = 1
+condition = 1
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "พายไปหาที่หลบฝน"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"first_night"
+title = "คืนแรกกลางสายน้ำ"
+text = "ฝนไม่หยุดตกเลยตั้งแต่ออกจากบ้านมา ผืนน้ำแผ่กว้างไปทุกทิศ ในความมืดยังมีเสียงคนร้องขอความช่วยเหลือ
+
+คืนนี้เราจะทำอย่างไรดี?"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5")])
+min_day = 1
+max_day = 1
+weight = 100
+once = true
+has_subject = true
+time_of_day = 3

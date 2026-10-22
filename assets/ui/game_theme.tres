@@ -1,0 +1,150 @@
+[gd_resource type="Theme" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/ui/button_normal.svg" id="1_bn"]
+[ext_resource type="Texture2D" path="res://assets/ui/button_hover.svg" id="2_bh"]
+[ext_resource type="Texture2D" path="res://assets/ui/button_pressed.svg" id="3_bp"]
+[ext_resource type="Texture2D" path="res://assets/ui/button_disabled.svg" id="4_bd"]
+[ext_resource type="Texture2D" path="res://assets/ui/panel_dark.svg" id="5_pd"]
+[ext_resource type="Texture2D" path="res://assets/ui/panel_paper.svg" id="6_pp"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansThai-Regular.ttf" id="7_thai"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansThai-Bold.ttf" id="8_thaib"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSans-Regular.ttf" id="9_latin"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSans-Bold.ttf" id="10_latinb"]
+
+[sub_resource type="SystemFont" id="SystemFont_regular"]
+font_names = PackedStringArray("Leelawadee UI", "Tahoma", "Noto Sans Thai", "Sarabun", "sans-serif")
+
+[sub_resource type="SystemFont" id="SystemFont_bold"]
+font_names = PackedStringArray("Leelawadee UI", "Tahoma", "Noto Sans Thai", "Sarabun", "sans-serif")
+font_weight = 700
+
+[sub_resource type="FontVariation" id="Font_regular"]
+fallbacks = Array[Font]([ExtResource("9_latin"), SubResource("SystemFont_regular")])
+base_font = ExtResource("7_thai")
+
+[sub_resource type="FontVariation" id="Font_bold"]
+fallbacks = Array[Font]([ExtResource("10_latinb"), SubResource("SystemFont_bold")])
+base_font = ExtResource("8_thaib")
+
+[sub_resource type="StyleBoxTexture" id="Style_button_normal"]
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+texture = ExtResource("1_bn")
+texture_margin_left = 16.0
+texture_margin_top = 14.0
+texture_margin_right = 16.0
+texture_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxTexture" id="Style_button_hover"]
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+texture = ExtResource("2_bh")
+texture_margin_left = 16.0
+texture_margin_top = 14.0
+texture_margin_right = 16.0
+texture_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxTexture" id="Style_button_pressed"]
+content_margin_left = 24.0
+content_margin_top = 11.0
+content_margin_right = 24.0
+content_margin_bottom = 9.0
+texture = ExtResource("3_bp")
+texture_margin_left = 16.0
+texture_margin_top = 14.0
+texture_margin_right = 16.0
+texture_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxTexture" id="Style_button_disabled"]
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+texture = ExtResource("4_bd")
+texture_margin_left = 16.0
+texture_margin_top = 14.0
+texture_margin_right = 16.0
+texture_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="Style_focus"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.937, 0.886, 0.749, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxTexture" id="Style_panel_dark"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+texture = ExtResource("5_pd")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="Style_panel_paper"]
+content_margin_left = 36.0
+content_margin_top = 30.0
+content_margin_right = 36.0
+content_margin_bottom = 30.0
+texture = ExtResource("6_pp")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+
+[resource]
+default_font = SubResource("Font_regular")
+default_font_size = 22
+Button/colors/font_color = Color(0.13, 0.118, 0.106, 1)
+Button/colors/font_disabled_color = Color(0.25, 0.235, 0.2, 1)
+Button/colors/font_focus_color = Color(0.13, 0.118, 0.106, 1)
+Button/colors/font_hover_color = Color(0.1, 0.09, 0.08, 1)
+Button/colors/font_hover_pressed_color = Color(0.1, 0.09, 0.08, 1)
+Button/colors/font_pressed_color = Color(0.1, 0.09, 0.08, 1)
+Button/font_sizes/font_size = 24
+Button/fonts/font = SubResource("Font_bold")
+Button/styles/disabled = SubResource("Style_button_disabled")
+Button/styles/focus = SubResource("Style_focus")
+Button/styles/hover = SubResource("Style_button_hover")
+Button/styles/normal = SubResource("Style_button_normal")
+Button/styles/pressed = SubResource("Style_button_pressed")
+CheckBox/colors/font_color = Color(0.2, 0.16, 0.12, 1)
+CheckBox/colors/font_focus_color = Color(0.2, 0.16, 0.12, 1)
+CheckBox/colors/font_hover_color = Color(0.1, 0.08, 0.06, 1)
+CheckBox/colors/font_hover_pressed_color = Color(0.1, 0.08, 0.06, 1)
+CheckBox/colors/font_pressed_color = Color(0.1, 0.08, 0.06, 1)
+Label/colors/font_color = Color(0.937, 0.886, 0.749, 1)
+Label/colors/font_outline_color = Color(0.1, 0.09, 0.08, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+PanelContainer/styles/panel = SubResource("Style_panel_dark")
+PaperLabel/base_type = &"Label"
+PaperLabel/colors/font_color = Color(0.22, 0.17, 0.12, 1)
+PaperLabel/font_sizes/font_size = 20
+PaperPanel/base_type = &"PanelContainer"
+PaperPanel/styles/panel = SubResource("Style_panel_paper")
+PaperTitle/base_type = &"Label"
+PaperTitle/colors/font_color = Color(0.2, 0.15, 0.1, 1)
+PaperTitle/font_sizes/font_size = 36
+PaperTitle/fonts/font = SubResource("Font_bold")
+TitleLabel/base_type = &"Label"
+TitleLabel/colors/font_color = Color(0.863, 0.714, 0.353, 1)
+TitleLabel/colors/font_outline_color = Color(0.1, 0.09, 0.08, 1)
+TitleLabel/constants/outline_size = 12
+TitleLabel/font_sizes/font_size = 40
+TitleLabel/fonts/font = SubResource("Font_bold")

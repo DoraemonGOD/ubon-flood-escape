@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"sala_stay"
+weight = 1
+journal_lines = Array[String](["เราจอดเรือไว้ข้างศาลา ได้ยินเสียงสวดมนต์ทั้งคืน"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "อยู่บนเรือต่อ"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"sala_ok"
+weight = 50
+journal_lines = Array[String](["ชาวบ้านขยับที่ให้ เราได้นอนบนพื้นไม้แห้ง ๆ เป็นครั้งแรกในรอบหลายวัน"])
+shelter_nights = 3
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"sala_full"
+weight = 50
+journal_lines = Array[String](["ที่บนศาลาเต็มแล้ว เราต้องกลับมานอนบนเรือ"])
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ขอพักบนศาลาสักสามคืน"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"sala_merit"
+weight = 1
+journal_lines = Array[String](["พระจำเราได้ ท่านขอให้ชาวบ้านแบ่งที่บนศาลาให้ครอบครัวเรา"])
+shelter_nights = 3
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "บอกพระว่าเราใส่บาตรไว้แล้ว"
+required_flag = "merit"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"temple_sala"
+title = "ศาลาวัดยังแห้ง"
+text = "บนศาลาการเปรียญยังแห้ง มีชาวบ้านหลายครอบครัวอาศัยอยู่ แต่ที่เริ่มแน่นแล้ว"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5"), SubResource("Choice_7")])
+min_day = 2
+max_day = 99
+weight = 22
+once = true
+locations = PackedStringArray("temple")
+time_of_day = 1

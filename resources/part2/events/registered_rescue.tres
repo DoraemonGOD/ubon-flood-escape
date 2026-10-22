@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"registered_saved"
+weight = 1
+journal_lines = Array[String](["เจ้าหน้าที่จำเราได้จากรายชื่อที่ลงทะเบียนไว้ และพาทุกคนขึ้นเรือกู้ภัย"])
+ending = &"rescued_registered"
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ตะโกนตอบ โบกมือสุดแขน"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"registered_rescue"
+title = "มีคนเรียกชื่อเรา!"
+text = "เรือของ อบต. ลำเดิมกลับมาพร้อมหน่วยกู้ภัย เจ้าหน้าที่ถือรายชื่อคนที่ลงทะเบียนไว้ และตะโกนเรียกชื่อครอบครัวของเรา!"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2")])
+min_day = 14
+max_day = 99
+weight = 25
+once = true
+required_flags = PackedStringArray("registered")
+time_of_day = 1

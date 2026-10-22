@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SurvivorData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/survivor_data.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://resources/part2/survivors/mother_frames.tres" id="2_frames"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"mother"
+display_name = "แม่"
+role_text = "แม่ของคุณ"
+sprite_frames = ExtResource("2_frames")

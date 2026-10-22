@@ -1,0 +1,300 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ui/portrait.svg" id="2_portrait"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_clock.svg" id="3_clock"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_bar.tscn" id="4_bar"]
+[ext_resource type="StyleBox" path="res://assets/ui/keycap_style.tres" id="5_keycap"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_weight.svg" id="6_weight"]
+[ext_resource type="PackedScene" path="res://scenes/ui/carry_ui.tscn" id="7_carry"]
+
+[sub_resource type="Gradient" id="Gradient_vignette"]
+offsets = PackedFloat32Array(0.6, 1)
+colors = PackedColorArray(0.02, 0.03, 0.04, 0, 0.02, 0.03, 0.04, 0.6)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vignette"]
+gradient = SubResource("Gradient_vignette")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[node name="HUD" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_script")
+
+[node name="Vignette" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_vignette")
+expand_mode = 1
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StatusPanel" type="PanelContainer" parent="Root"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 380.0
+offset_bottom = 104.0
+mouse_filter = 2
+
+[node name="HBox" type="HBoxContainer" parent="Root/StatusPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Portrait" type="TextureRect" parent="Root/StatusPanel/HBox"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+texture = ExtResource("2_portrait")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Root/StatusPanel/HBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="Objective" type="Label" parent="Root/StatusPanel/HBox/VBox"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 22
+text = "พาครอบครัวและของจำเป็นขึ้นเรือ!"
+
+[node name="WeightRow" type="HBoxContainer" parent="Root/StatusPanel/HBox/VBox"]
+layout_mode = 2
+
+[node name="WeightIcon" type="TextureRect" parent="Root/StatusPanel/HBox/VBox/WeightRow"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("6_weight")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeightLabel" type="Label" parent="Root/StatusPanel/HBox/VBox/WeightRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "บนเรือ 0.0 กก."
+
+[node name="CarryUI" parent="Root" instance=ExtResource("7_carry")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 112.0
+offset_right = 316.0
+offset_bottom = 200.0
+
+[node name="TimerPanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -236.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 104.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="HBox" type="HBoxContainer" parent="Root/TimerPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="ClockIcon" type="TextureRect" parent="Root/TimerPanel/HBox"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+texture = ExtResource("3_clock")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TimeLabel" type="Label" parent="Root/TimerPanel/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 52
+text = "01:00"
+
+[node name="InventoryBar" parent="Root" instance=ExtResource("4_bar")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -134.0
+offset_right = 300.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Prompt" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 52.0
+mouse_filter = 2
+
+[node name="HBox" type="HBoxContainer" parent="Root/Prompt"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="KeyCap" type="PanelContainer" parent="Root/Prompt/HBox"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("5_keycap")
+
+[node name="KeyLabel" type="Label" parent="Root/Prompt/HBox/KeyCap"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13, 0.118, 0.106, 1)
+theme_override_font_sizes/font_size = 20
+text = "E"
+horizontal_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="Root/Prompt/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "เก็บ"
+
+[node name="BoatPrompt" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 72.0
+mouse_filter = 2
+
+[node name="HBox" type="HBoxContainer" parent="Root/BoatPrompt"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="KeyCap" type="PanelContainer" parent="Root/BoatPrompt/HBox"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("5_keycap")
+
+[node name="KeyLabel" type="Label" parent="Root/BoatPrompt/HBox/KeyCap"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13, 0.118, 0.106, 1)
+theme_override_font_sizes/font_size = 20
+text = "Q"
+horizontal_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="Root/BoatPrompt/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="BoatPromptLabel" type="Label" parent="Root/BoatPrompt/HBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "— โยนของขึ้นเรือ"
+
+[node name="BoatCountLabel" type="Label" parent="Root/BoatPrompt/HBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.863, 0.714, 0.353, 1)
+theme_override_font_sizes/font_size = 16
+text = "บนเรือแล้ว 0 ชิ้น"
+
+[node name="Message" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -204.0
+offset_right = 200.0
+offset_bottom = -150.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="MessageLabel" type="Label" parent="Root/Message"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="TimeUpBanner" type="Label" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"TitleLabel"
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 110
+text = "หมดเวลา!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LookCountdown" type="VBoxContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -178.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = -6
+alignment = 1
+
+[node name="LookTitle" type="Label" parent="Root/LookCountdown"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 32
+text = "ดูให้ดีว่าของและคนในบ้านอยู่ตรงไหน!"
+horizontal_alignment = 1
+
+[node name="LookNumber" type="Label" parent="Root/LookCountdown"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 80
+text = "5"
+horizontal_alignment = 1
+
+[node name="LookHint" type="Label" parent="Root/LookCountdown"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.937, 0.886, 0.749, 0.85)
+theme_override_colors/font_outline_color = Color(0.1, 0.09, 0.08, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "เวลา 60 วินาทีจะเริ่มเมื่อนับถึง 0  ·  กด E เพื่อเริ่มทันที"
+horizontal_alignment = 1

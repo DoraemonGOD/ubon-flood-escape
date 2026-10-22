@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"temple_wait"
+weight = 1
+journal_lines = Array[String](["เราขอบคุณท่านแล้วตัดสินใจรอต่อ เรือของวัดแล่นจากไป"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ยังไม่ไป รอดูสถานการณ์ก่อน"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"temple_saved"
+weight = 1
+journal_lines = Array[String](["ครอบครัวเราขึ้นเรือของวัดไปยังศูนย์พักพิง ที่นั่นมีข้าวสวยร้อน ๆ และหมอคอยดูแล"])
+ending = &"temple_shelter"
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "ขึ้นเรือไปกับท่าน"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"temple_boat"
+title = "เรือของวัด"
+text = "เรือหางยาวของวัดแล่นมาจอด พระบอกว่าจะพาครอบครัวที่ทำบุญและช่วยเหลือกันไว้ไปศูนย์พักพิงบนโรงเรียนที่น้ำท่วมไม่ถึง"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4")])
+min_day = 10
+max_day = 99
+weight = 40
+once = false
+required_flags = PackedStringArray("merit")
+locations = PackedStringArray("temple")
+time_of_day = 1

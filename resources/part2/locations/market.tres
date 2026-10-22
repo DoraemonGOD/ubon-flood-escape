@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="LocationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/location_data.gd" id="1_loc"]
+
+[resource]
+script = ExtResource("1_loc")
+id = &"market"
+name_th = "ตลาดในเมือง"
+description = "ร้านค้าจมครึ่งหลัง ของลอยออกมาให้เก็บได้มาก แต่มีขโมยและหนูชุม"
+loot_table = {
+"canned_food": 35,
+"water": 25,
+"batteries": 20,
+"medicine": 10,
+"flashlight": 5,
+"rope": 5
+}
+obstacles = PackedStringArray("res://assets/environments/outside/fridge_float.svg", "res://assets/environments/outside/floating_chair.svg")

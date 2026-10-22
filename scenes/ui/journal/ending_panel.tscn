@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/journal/ending_panel.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ui/divider.svg" id="2_divider"]
+
+[node name="EndingPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(720, 0)
+theme_type_variation = &"PaperPanel"
+script = ExtResource("1_script")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="EndingTitle" type="Label" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PaperTitle"
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+
+[node name="EndingStory" type="Label" parent="VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(640, 0)
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 19
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Divider" type="TextureRect" parent="VBox"]
+modulate = Color(0.45, 0.35, 0.2, 1)
+layout_mode = 2
+texture = ExtResource("2_divider")
+stretch_mode = 3
+
+[node name="EndingPeople" type="Label" parent="VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(640, 0)
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="RetryButton" type="Button" parent="VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "ลองเอาชีวิตรอดอีกครั้ง"
+
+[node name="NewGameButton" type="Button" parent="VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "เริ่มใหม่ตั้งแต่ Part 1"
+
+[node name="EndMenuButton" type="Button" parent="VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "กลับหน้าหลัก"

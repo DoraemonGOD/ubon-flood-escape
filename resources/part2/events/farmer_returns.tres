@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"farmer_map"
+weight = 1
+journal_lines = Array[String](["ลุงให้น้ำสองขวดและบอกทางไปสะพาน", "ที่นั่นมีรถทหารรับคนที่มีชื่อในบัญชีผู้ประสบภัย"])
+supply_changes = {
+"water": 2
+}
+set_flags = PackedStringArray("knows_highway")
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ขอบคุณลุง"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"farmer_returns"
+title = "ลุงเจ้าของควาย"
+text = "ลุงเจ้าของควายพายเรือตามมา บอกว่ารู้ทางไปสะพานทางหลวงที่มีจุดอพยพของทหาร"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2")])
+min_day = 5
+max_day = 99
+weight = 35
+once = true
+required_flags = PackedStringArray("farmer_friend")
+time_of_day = 1

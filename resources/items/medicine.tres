@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/items/medicine.svg" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"medicine"
+name_th = "ยาสามัญ"
+name_en = "First Aid Kit"
+description = "กล่องยาสามัญประจำบ้าน มีพลาสเตอร์ ยาแก้ไข้ และยาทาแผล"
+icon = ExtResource("2_icon")
+world_scale = 0.75
+weight = 0.5
+max_stack = 3
+category = &"medical"

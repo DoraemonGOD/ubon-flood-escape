@@ -1,0 +1,78 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"trade_none"
+weight = 1
+journal_lines = Array[String](["พ่อค้าพยักหน้าแล้วพายเรือต่อไป"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ไม่แลกอะไร"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"trade_medicine"
+weight = 1
+journal_lines = Array[String](["พ่อค้ารับยาไปอย่างดีใจ แล้วยกน้ำให้สามขวด"])
+supply_changes = {
+"water": 3
+}
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "แลกยาสามัญ กับน้ำ 3 ขวด"
+required_item = &"medicine"
+consumes_item = true
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[sub_resource type="Resource" id="Outcome_5"]
+script = ExtResource("3_outcome")
+id = &"trade_batteries"
+weight = 1
+journal_lines = Array[String](["พ่อค้าอยากได้ถ่านไว้ใช้กับวิทยุ เขาให้อาหารสองกระป๋อง"])
+supply_changes = {
+"canned_food": 2
+}
+
+[sub_resource type="Resource" id="Choice_6"]
+script = ExtResource("2_choice")
+label = "แลกแบตเตอรี่ กับอาหาร 2 กระป๋อง"
+required_item = &"batteries"
+consumes_item = true
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_5")])
+
+[sub_resource type="Resource" id="Outcome_7"]
+script = ExtResource("3_outcome")
+id = &"trade_radio"
+weight = 1
+journal_lines = Array[String](["เราตัดใจแลกวิทยุไป ได้น้ำสองขวดกับอาหารสองกระป๋อง", "จากนี้เราจะไม่ได้ฟังข่าวอีกแล้ว"])
+supply_changes = {
+"water": 2,
+"canned_food": 2
+}
+
+[sub_resource type="Resource" id="Choice_8"]
+script = ExtResource("2_choice")
+label = "แลกวิทยุ กับน้ำ 2 และอาหาร 2"
+required_item = &"radio"
+consumes_item = true
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_7")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"merchant"
+title = "เรือพ่อค้า"
+text = "เรือพ่อค้าลำหนึ่งเทียบเข้ามา เขามีน้ำและอาหาร แต่ไม่รับเงิน รับแลกของเท่านั้น"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4"), SubResource("Choice_6"), SubResource("Choice_8")])
+min_day = 3
+max_day = 99
+weight = 16
+once = false
+locations = PackedStringArray("market", "highway", "village")
+time_of_day = 1

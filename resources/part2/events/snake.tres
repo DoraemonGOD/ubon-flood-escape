@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"snake_ok"
+weight = 65
+journal_lines = Array[String](["เราเขี่ยงูลงน้ำไปได้สำเร็จ ใจหายใจคว่ำกันทั้งเรือ"])
+
+[sub_resource type="Resource" id="Outcome_2"]
+script = ExtResource("3_outcome")
+id = &"snake_bite"
+weight = 35
+journal_lines = Array[String](["งูฉก {target} ก่อนจะลงน้ำไป แผลบวมแดง"])
+condition_target = 2
+condition = 2
+
+[sub_resource type="Resource" id="Choice_3"]
+script = ExtResource("2_choice")
+label = "เขี่ยออกด้วยไม้พาย"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1"), SubResource("Outcome_2")])
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"snake_light"
+weight = 1
+journal_lines = Array[String](["แสงไฟทำให้งูตกใจ มันเลื้อยลงน้ำไปเอง"])
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ส่องไฟฉายไล่"
+required_item = &"flashlight"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_4")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"snake"
+title = "งูเลื้อยขึ้นเรือ"
+text = "งูตัวยาวว่ายหนีน้ำมาเกาะกราบเรือ แล้วค่อย ๆ เลื้อยเข้ามาใกล้ที่นอนของเรา"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_3"), SubResource("Choice_5")])
+min_day = 2
+max_day = 26
+weight = 7
+once = true
+time_of_day = 2

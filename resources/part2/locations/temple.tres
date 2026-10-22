@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LocationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/location_data.gd" id="1_loc"]
+
+[resource]
+script = ExtResource("1_loc")
+id = &"temple"
+name_th = "วัดกลางน้ำ"
+description = "ศาลาวัดยังพอแห้ง พระและชาวบ้านช่วยเหลือกัน ทำบุญอาจได้ที่พักพิง"
+loot_table = {
+"water": 35,
+"canned_food": 30,
+"medicine": 15
+}
+obstacles = PackedStringArray("res://assets/environments/outside/branch.svg", "res://assets/environments/outside/log.svg")

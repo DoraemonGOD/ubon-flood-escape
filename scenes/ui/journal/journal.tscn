@@ -1,0 +1,264 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/journal/journal.gd" id="1_journal"]
+[ext_resource type="Script" path="res://scripts/ui/journal/report_page.gd" id="2_report"]
+[ext_resource type="Script" path="res://scripts/ui/journal/ration_page.gd" id="3_ration"]
+[ext_resource type="Script" path="res://scripts/ui/journal/event_page.gd" id="4_event"]
+[ext_resource type="Script" path="res://scripts/ui/journal/expedition_page.gd" id="5_expedition"]
+[ext_resource type="Texture2D" path="res://assets/ui/divider.svg" id="6_divider"]
+[ext_resource type="Texture2D" path="res://assets/items/radio.svg" id="7_radio"]
+[ext_resource type="Script" path="res://scripts/ui/journal/voyage_page.gd" id="8_voyage"]
+
+[node name="Journal" type="PanelContainer"]
+theme_type_variation = &"PaperPanel"
+script = ExtResource("1_journal")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+
+[node name="DayLabel" type="Label" parent="VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PaperTitle"
+text = "วันที่ 1"
+
+[node name="Spacer" type="Control" parent="VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WeatherLabel" type="Label" parent="VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"PaperLabel"
+text = "อากาศ: ฝนตกหนัก"
+
+[node name="Tabs" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TabReport" type="Button" parent="VBox/Tabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "บันทึก"
+
+[node name="TabRation" type="Button" parent="VBox/Tabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 17
+text = "แบ่งเสบียง"
+
+[node name="TabEvent" type="Button" parent="VBox/Tabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 17
+text = "เหตุการณ์"
+
+[node name="TabExpedition" type="Button" parent="VBox/Tabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 17
+text = "ออกสำรวจ"
+
+[node name="TabVoyage" type="Button" parent="VBox/Tabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 17
+text = "ล่องเรือ"
+
+[node name="Divider" type="TextureRect" parent="VBox"]
+modulate = Color(0.45, 0.35, 0.2, 1)
+layout_mode = 2
+texture = ExtResource("6_divider")
+stretch_mode = 3
+
+[node name="Pages" type="MarginContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ReportPage" type="ScrollContainer" parent="VBox/Pages"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("2_report")
+
+[node name="VBox" type="VBoxContainer" parent="VBox/Pages/ReportPage"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="ReportLines" type="Label" parent="VBox/Pages/ReportPage/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(540, 0)
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+
+[node name="RadioButton" type="Button" parent="VBox/Pages/ReportPage/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/icon_max_width = 36
+theme_override_font_sizes/font_size = 18
+text = "เปิดวิทยุฟังข่าว"
+icon = ExtResource("7_radio")
+
+[node name="RationPage" type="ScrollContainer" parent="VBox/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("3_ration")
+
+[node name="VBox" type="VBoxContainer" parent="VBox/Pages/RationPage"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="StockLabel" type="Label" parent="VBox/Pages/RationPage/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 18
+
+[node name="RationRows" type="VBoxContainer" parent="VBox/Pages/RationPage/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="EventPage" type="ScrollContainer" parent="VBox/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("4_event")
+
+[node name="VBox" type="VBoxContainer" parent="VBox/Pages/EventPage"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="EventTitle" type="Label" parent="VBox/Pages/EventPage/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PaperTitle"
+theme_override_font_sizes/font_size = 28
+
+[node name="EventText" type="Label" parent="VBox/Pages/EventPage/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(540, 0)
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 19
+autowrap_mode = 3
+
+[node name="Choices" type="VBoxContainer" parent="VBox/Pages/EventPage/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EventHint" type="Label" parent="VBox/Pages/EventPage/VBox"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+
+[node name="ExpeditionPage" type="ScrollContainer" parent="VBox/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("5_expedition")
+
+[node name="VBox" type="VBoxContainer" parent="VBox/Pages/ExpeditionPage"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="ExpeditionInfo" type="Label" parent="VBox/Pages/ExpeditionPage/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(540, 0)
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="Members" type="VBoxContainer" parent="VBox/Pages/ExpeditionPage/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Gear" type="VBoxContainer" parent="VBox/Pages/ExpeditionPage/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Odds" type="Label" parent="VBox/Pages/ExpeditionPage/VBox"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.75)
+custom_minimum_size = Vector2(540, 0)
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+
+[node name="VoyagePage" type="ScrollContainer" parent="VBox/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("8_voyage")
+
+[node name="VBox" type="VBoxContainer" parent="VBox/Pages/VoyagePage"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="VoyageInfo" type="Label" parent="VBox/Pages/VoyagePage/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(540, 0)
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="VoyageOptions" type="VBoxContainer" parent="VBox/Pages/VoyagePage/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Footer" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PrevButton" type="Button" parent="VBox/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "◀"
+
+[node name="NextButton" type="Button" parent="VBox/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "▶"
+
+[node name="Spacer" type="Control" parent="VBox/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EndDayButton" type="Button" parent="VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "จบวัน ▸"

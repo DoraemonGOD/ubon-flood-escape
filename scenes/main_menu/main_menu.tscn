@@ -1,0 +1,218 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ui/menu_bg.svg" id="2_bg"]
+[ext_resource type="Texture2D" path="res://assets/ui/divider.svg" id="3_divider"]
+
+[sub_resource type="Gradient" id="Gradient_rain"]
+colors = PackedColorArray(0.85, 0.9, 0.92, 0, 0.85, 0.9, 0.92, 0.55)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rain"]
+gradient = SubResource("Gradient_rain")
+width = 2
+height = 26
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_shade"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.05, 0.05, 0.08, 0.75, 0.05, 0.05, 0.08, 0.1, 0.05, 0.05, 0.08, 0.35)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_shade"]
+gradient = SubResource("Gradient_shade")
+width = 64
+height = 8
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Shade" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_shade")
+expand_mode = 1
+
+[node name="Rain" type="CPUParticles2D" parent="."]
+position = Vector2(700, -40)
+amount = 220
+lifetime = 0.9
+preprocess = 1.0
+texture = SubResource("GradientTexture2D_rain")
+emission_shape = 3
+emission_rect_extents = Vector2(1000, 10)
+direction = Vector2(-0.18, 1)
+spread = 2.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 850.0
+initial_velocity_max = 1000.0
+particle_flag_align_y = true
+
+[node name="TitleBlock" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 72.0
+offset_top = -250.0
+offset_right = 680.0
+offset_bottom = 120.0
+grow_vertical = 2
+theme_override_constants/separation = -2
+
+[node name="Title" type="Label" parent="TitleBlock"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_constants/outline_size = 24
+theme_override_font_sizes/font_size = 130
+text = "UBON"
+
+[node name="Subtitle" type="Label" parent="TitleBlock"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_colors/font_color = Color(0.937, 0.886, 0.749, 1)
+theme_override_constants/outline_size = 18
+theme_override_font_sizes/font_size = 66
+text = "FLOOD ESCAPE"
+
+[node name="ThaiTitle" type="Label" parent="TitleBlock"]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 38
+text = "หนีน้ำท่วม อุบลราชธานี"
+
+[node name="Spacer" type="Control" parent="TitleBlock"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+
+[node name="Tagline" type="Label" parent="TitleBlock"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 21
+text = "น้ำกำลังมา... มีเวลา 60 วินาที ขนของจำเป็นขึ้นเรือให้ได้มากที่สุด"
+autowrap_mode = 3
+
+[node name="MenuPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -60.0
+offset_right = -80.0
+offset_bottom = 250.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="MenuPanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Divider" type="TextureRect" parent="MenuPanel/VBox"]
+layout_mode = 2
+texture = ExtResource("3_divider")
+stretch_mode = 3
+
+[node name="StartButton" type="Button" parent="MenuPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "เริ่มเกม"
+
+[node name="HowToButton" type="Button" parent="MenuPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "วิธีเล่น"
+
+[node name="Part2TestButton" type="Button" parent="MenuPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "ทดสอบ Part 2: เอาชีวิตรอด"
+
+[node name="QuitButton" type="Button" parent="MenuPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ออกจากเกม"
+
+[node name="Version" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -36.0
+offset_right = 420.0
+offset_bottom = -10.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 15
+text = "Part 1 — Scavenging prototype"
+
+[node name="HowToPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -220.0
+offset_right = 320.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"PaperPanel"
+
+[node name="VBox" type="VBoxContainer" parent="HowToPanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="HowToPanel/VBox"]
+layout_mode = 2
+theme_type_variation = &"PaperTitle"
+text = "วิธีเล่น"
+horizontal_alignment = 1
+
+[node name="Body" type="Label" parent="HowToPanel/VBox"]
+custom_minimum_size = Vector2(540, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"PaperLabel"
+text = "• WASD หรือปุ่มลูกศร — เดิน   • Shift — วิ่ง
+• E — หยิบของ / พาคนในบ้านไปด้วย (มือว่าง 3 ช่อง, คน 1 คน = 2 ช่อง)
+• Q — โยนของขึ้นเรือ (ต้องยืนที่ระเบียงข้างเรือ)
+• Esc — หยุดเกม / เล่นต่อ
+
+น้ำจะท่วมถึงบ้านใน 60 วินาที วิ่งขนของจำเป็นไปโยนขึ้นเรือ
+ของและคนที่อยู่บนเรือเท่านั้นที่จะไปต่อในช่วงเอาชีวิตรอด — ของอยู่คนละที่ทุกครั้งที่เริ่มใหม่"
+autowrap_mode = 3
+
+[node name="CloseHowToButton" type="Button" parent="HowToPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "เข้าใจแล้ว"

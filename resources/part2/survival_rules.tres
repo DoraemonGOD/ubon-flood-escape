@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="SurvivalRules" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/survival_rules.gd" id="1_rules"]
+
+[resource]
+script = ExtResource("1_rules")
+thirst_death_days = 6
+thirst_warning_days = 2
+hunger_death_days = 9
+hunger_warning_days = 3
+sick_death_days = 5
+injured_death_days = 8
+natural_recovery_chance = 0.15
+rain_sickness_chance = 0.12
+flashlight_start_charge = 3
+radio_start_charge = 2
+battery_charge = 3
+expedition_days = 2
+expedition_find = 55
+expedition_nothing = 20
+expedition_injured = 15
+expedition_lost = 10
+loot_table = {
+"batteries": 16,
+"canned_food": 30,
+"flashlight": 5,
+"medicine": 14,
+"rope": 5,
+"water": 30
+}
+quiet_day_chance = 0.2
+final_day = 30
+broadcasts_for_signal = 4
+radio_news = Array[String](["\"...ข่าวภาคค่ำ ระดับน้ำแม่น้ำมูลที่อุบลราชธานีสูงที่สุดในรอบหลายสิบปี ทางจังหวัดขอให้ประชาชนอยู่ในที่สูงไว้ก่อน...\"", "\"...ศูนย์อพยพเปิดแล้วที่วัดและโรงเรียนหลายแห่ง แต่เส้นทางเข้าออกหลายสายยังถูกตัดขาด...\"", "\"...กรมอุตุนิยมวิทยาคาดว่าฝนจะเริ่มซาลงในอีกไม่กี่วัน...\"", "\"...หน่วยกู้ภัยออกค้นหาผู้ติดค้างทุกคืน ผู้ที่ต้องการความช่วยเหลือให้ส่งสัญญาณด้วยไฟฉายหรือแสงไฟ...\"", "\"...ระดับน้ำเริ่มทรงตัว เจ้าหน้าที่ยังคงค้นหาผู้ติดค้างอย่างต่อเนื่อง...\""])
+voyage_every = 3
+voyage_spawns = 8
+voyage_obstacle_chance = 0.35
+voyage_window = 1.1
+voyage_rope_bonus = 0.35

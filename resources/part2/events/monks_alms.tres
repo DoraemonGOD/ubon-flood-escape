@@ -1,0 +1,63 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"monks_watch"
+weight = 1
+journal_lines = Array[String](["พระพายเรือผ่านไปช้า ๆ ทุกคนรู้สึกสงบขึ้นเล็กน้อย"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ไหว้ แล้วนั่งมองท่านพายผ่านไป"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"monks_merit"
+weight = 1
+journal_lines = Array[String](["เราใส่บาตรอาหารกระป๋องหนึ่งกระป๋อง ท่านให้พร", "ท่านบอกว่าศาลาวัดยังมีที่ว่าง และเรือของวัดจะพาคนที่ช่วยเหลือกันไปศูนย์พักพิง"])
+set_flags = PackedStringArray("merit")
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "ใส่บาตรด้วยอาหารกระป๋อง"
+required_item = &"canned_food"
+consumes_item = true
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[sub_resource type="Resource" id="Outcome_5"]
+script = ExtResource("3_outcome")
+id = &"monks_gave"
+weight = 60
+journal_lines = Array[String](["ท่านแบ่งข้าวเหนียวให้ห่อหนึ่ง พอกินได้หนึ่งมื้อ"])
+supply_changes = {
+"canned_food": 1
+}
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"monks_none"
+weight = 40
+journal_lines = Array[String](["ข้าวในบาตรไม่พอแจกแล้ว ท่านขอโทษแล้วพายต่อไป"])
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ขอข้าวจากท่าน"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_5"), SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"monks_alms"
+title = "พระพายเรือบิณฑบาต"
+text = "เช้าตรู่ พระรูปหนึ่งพายเรือลำเล็กผ่านมา ในบาตรมีข้าวเหนียวห่อใบตองอยู่ไม่กี่ห่อ ท่านยิ้มให้ทุกคนบนเรือ"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4"), SubResource("Choice_7")])
+min_day = 2
+max_day = 99
+weight = 30
+once = true
+locations = PackedStringArray("temple")
+time_of_day = 0

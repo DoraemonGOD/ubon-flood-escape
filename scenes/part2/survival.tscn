@@ -1,0 +1,428 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/survival_game.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/night_sky.svg" id="2_sky"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/far_community.svg" id="3_far"]
+[ext_resource type="Shader" path="res://assets/environments/flood_water.gdshader" id="4_water"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/house_stilt_night.svg" id="5_house"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/storm_clouds.svg" id="6_clouds"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/shop_sign.svg" id="7_sign"]
+[ext_resource type="Script" path="res://scripts/part2/backdrop.gd" id="8_backdrop"]
+[ext_resource type="Texture2D" path="res://assets/environments/outside/pole.svg" id="9_pole"]
+[ext_resource type="Script" path="res://scripts/part2/flicker_light.gd" id="10_flicker"]
+[ext_resource type="Script" path="res://scripts/part2/floating_prop.gd" id="11_float"]
+[ext_resource type="Texture2D" path="res://assets/environments/outside/leaf_cluster.svg" id="12_leaf"]
+[ext_resource type="Texture2D" path="res://assets/environments/outside/floating_bottle.svg" id="13_bottle"]
+[ext_resource type="Texture2D" path="res://assets/environments/outside/floating_chair.svg" id="14_chair"]
+[ext_resource type="Texture2D" path="res://assets/environments/outside/debris_plank.svg" id="15_plank"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/loc_temple.svg" id="16_temple"]
+[ext_resource type="PackedScene" path="res://scenes/part2/survival_boat.tscn" id="17_boat"]
+[ext_resource type="PackedScene" path="res://scenes/ui/status_bar.tscn" id="18_status"]
+[ext_resource type="PackedScene" path="res://scenes/ui/supplies_panel.tscn" id="19_supplies"]
+[ext_resource type="PackedScene" path="res://scenes/ui/journal/journal.tscn" id="20_journal"]
+[ext_resource type="PackedScene" path="res://scenes/ui/journal/ending_panel.tscn" id="21_ending"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/loc_market.svg" id="22_market"]
+[ext_resource type="Texture2D" path="res://assets/environments/outside/banana_tree.svg" id="23_banana"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/loc_field.svg" id="24_field"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/loc_highway.svg" id="25_highway"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
+shader = ExtResource("4_water")
+shader_parameter/deep_color = Color(0.09, 0.19, 0.22, 1)
+shader_parameter/shallow_color = Color(0.17, 0.32, 0.35, 1)
+shader_parameter/light_color = Color(0.55, 0.66, 0.7, 1)
+shader_parameter/wave_scale = 0.009
+shader_parameter/ripple_cell = 44.0
+shader_parameter/opacity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_front_water"]
+shader = ExtResource("4_water")
+shader_parameter/deep_color = Color(0.09, 0.19, 0.22, 1)
+shader_parameter/shallow_color = Color(0.17, 0.32, 0.35, 1)
+shader_parameter/light_color = Color(0.55, 0.66, 0.7, 1)
+shader_parameter/wave_scale = 0.009
+shader_parameter/ripple_cell = 44.0
+shader_parameter/opacity = 0.82
+
+[sub_resource type="Gradient" id="Gradient_light"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
+gradient = SubResource("Gradient_light")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_fog"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.85, 0.85, 0.88, 0, 0.88, 0.88, 0.9, 0.85, 0.85, 0.85, 0.88, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fog"]
+gradient = SubResource("Gradient_fog")
+width = 64
+height = 64
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_rain"]
+colors = PackedColorArray(0.8, 0.88, 0.92, 0, 0.8, 0.88, 0.92, 0.5)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rain"]
+gradient = SubResource("Gradient_rain")
+width = 2
+height = 28
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_vignette"]
+offsets = PackedFloat32Array(0.55, 1)
+colors = PackedColorArray(0, 0.01, 0.03, 0, 0, 0.01, 0.03, 0.6)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vignette"]
+gradient = SubResource("Gradient_vignette")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[node name="SurvivalGame" type="Node2D"]
+process_mode = 1
+script = ExtResource("1_script")
+
+[node name="NightTint" type="CanvasModulate" parent="."]
+color = Color(0.5, 0.55, 0.72, 1)
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("8_backdrop")
+
+[node name="Sky" type="Sprite2D" parent="Background"]
+texture = ExtResource("2_sky")
+centered = false
+
+[node name="StormClouds" type="Sprite2D" parent="Background"]
+texture = ExtResource("6_clouds")
+centered = false
+
+[node name="FarCommunity" type="Sprite2D" parent="Background"]
+position = Vector2(0, 205)
+texture = ExtResource("3_far")
+centered = false
+
+[node name="FarLights" type="Node2D" parent="Background"]
+
+[node name="Window1" type="PointLight2D" parent="Background/FarLights"]
+position = Vector2(80, 392)
+color = Color(1, 0.7, 0.35, 1)
+energy = 0.9
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 0.5
+script = ExtResource("10_flicker")
+
+[node name="Window2" type="PointLight2D" parent="Background/FarLights"]
+position = Vector2(590, 380)
+color = Color(1, 0.7, 0.35, 1)
+energy = 0.7
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 0.4
+script = ExtResource("10_flicker")
+flicker_amount = 0.3
+
+[node name="Water" type="Polygon2D" parent="Background"]
+material = SubResource("ShaderMaterial_water")
+polygon = PackedVector2Array(0, 422, 1280, 422, 1280, 720, 0, 720)
+
+[node name="Locations" type="Node2D" parent="Background"]
+
+[node name="Village" type="Node2D" parent="Background/Locations"]
+
+[node name="ShopSign" type="Sprite2D" parent="Background/Locations/Village"]
+position = Vector2(150, 462)
+rotation = -0.05
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("7_sign")
+centered = false
+offset = Vector2(-120, -160)
+
+[node name="SignText" type="Label" parent="Background/Locations/Village/ShopSign"]
+offset_left = -104.0
+offset_top = -134.0
+offset_right = 104.0
+offset_bottom = -96.0
+theme_override_colors/font_color = Color(0.91, 0.89, 0.85, 1)
+theme_override_font_sizes/font_size = 24
+text = "ร้านชำป้าแดง"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HouseStilt" type="Sprite2D" parent="Background/Locations/Village"]
+position = Vector2(470, 448)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("5_house")
+centered = false
+offset = Vector2(-140, -230)
+
+[node name="HouseWindowLight" type="PointLight2D" parent="Background/Locations/Village/HouseStilt"]
+position = Vector2(53, -114)
+color = Color(1, 0.72, 0.36, 1)
+energy = 1.3
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 1.4
+script = ExtResource("10_flicker")
+flicker_amount = 0.25
+
+[node name="Pole" type="Sprite2D" parent="Background/Locations/Village"]
+position = Vector2(40, 500)
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("9_pole")
+centered = false
+offset = Vector2(-30, -280)
+
+[node name="Banana" type="Sprite2D" parent="Background/Locations/Village"]
+position = Vector2(560, 470)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("23_banana")
+centered = false
+offset = Vector2(-80, -214)
+
+[node name="Temple" type="Node2D" parent="Background/Locations"]
+visible = false
+
+[node name="Sprite" type="Sprite2D" parent="Background/Locations/Temple"]
+position = Vector2(0, 470)
+texture = ExtResource("16_temple")
+centered = false
+offset = Vector2(0, -300)
+
+[node name="Market" type="Node2D" parent="Background/Locations"]
+visible = false
+
+[node name="Sprite" type="Sprite2D" parent="Background/Locations/Market"]
+position = Vector2(0, 470)
+texture = ExtResource("22_market")
+centered = false
+offset = Vector2(0, -270)
+
+[node name="Sign1" type="Label" parent="Background/Locations/Market"]
+offset_left = 30.0
+offset_top = 333.0
+offset_right = 158.0
+offset_bottom = 361.0
+theme_override_colors/font_color = Color(0.92, 0.9, 0.85, 1)
+theme_override_font_sizes/font_size = 17
+text = "ร้านทองเยาวราช"
+horizontal_alignment = 1
+
+[node name="Sign2" type="Label" parent="Background/Locations/Market"]
+offset_left = 178.0
+offset_top = 333.0
+offset_right = 306.0
+offset_bottom = 361.0
+theme_override_colors/font_color = Color(0.92, 0.9, 0.85, 1)
+theme_override_font_sizes/font_size = 17
+text = "ข้าวมันไก่"
+horizontal_alignment = 1
+
+[node name="Sign3" type="Label" parent="Background/Locations/Market"]
+offset_left = 326.0
+offset_top = 333.0
+offset_right = 454.0
+offset_bottom = 361.0
+theme_override_colors/font_color = Color(0.92, 0.9, 0.85, 1)
+theme_override_font_sizes/font_size = 17
+text = "ร้านยาอุบล"
+horizontal_alignment = 1
+
+[node name="Sign4" type="Label" parent="Background/Locations/Market"]
+offset_left = 474.0
+offset_top = 333.0
+offset_right = 602.0
+offset_bottom = 361.0
+theme_override_colors/font_color = Color(0.2, 0.15, 0.1, 1)
+theme_override_font_sizes/font_size = 17
+text = "โชห่วยเจ๊หมวย"
+horizontal_alignment = 1
+
+[node name="Field" type="Node2D" parent="Background/Locations"]
+visible = false
+
+[node name="Sprite" type="Sprite2D" parent="Background/Locations/Field"]
+position = Vector2(0, 470)
+texture = ExtResource("24_field")
+centered = false
+offset = Vector2(0, -210)
+
+[node name="Highway" type="Node2D" parent="Background/Locations"]
+visible = false
+
+[node name="Sprite" type="Sprite2D" parent="Background/Locations/Highway"]
+position = Vector2(0, 470)
+texture = ExtResource("25_highway")
+centered = false
+offset = Vector2(0, -280)
+
+[node name="RoadSign" type="Label" parent="Background/Locations/Highway"]
+offset_left = 76.0
+offset_top = 233.0
+offset_right = 150.0
+offset_bottom = 260.0
+theme_override_colors/font_color = Color(0.95, 0.95, 0.92, 1)
+theme_override_font_sizes/font_size = 14
+text = "อุบลฯ 12"
+horizontal_alignment = 1
+
+[node name="Fog" type="Sprite2D" parent="Background"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(0, 300)
+scale = Vector2(20, 3.4)
+texture = SubResource("GradientTexture2D_fog")
+centered = false
+
+[node name="Lightning" type="Polygon2D" parent="Background"]
+visible = false
+z_index = 20
+color = Color(0.92, 0.95, 1, 1)
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 720, 0, 720)
+
+[node name="Debris" type="Node2D" parent="."]
+
+[node name="Leaf1" type="Sprite2D" parent="Debris"]
+position = Vector2(150, 560)
+texture = ExtResource("12_leaf")
+script = ExtResource("11_float")
+wrap_right = 640.0
+
+[node name="Leaf2" type="Sprite2D" parent="Debris"]
+position = Vector2(420, 600)
+texture = ExtResource("12_leaf")
+script = ExtResource("11_float")
+drift_speed = 4.0
+wrap_right = 640.0
+
+[node name="Bottle" type="Sprite2D" parent="Debris"]
+position = Vector2(560, 540)
+texture = ExtResource("13_bottle")
+script = ExtResource("11_float")
+drift_speed = 5.0
+wrap_right = 640.0
+
+[node name="Chair" type="Sprite2D" parent="Debris"]
+position = Vector2(300, 455)
+texture = ExtResource("14_chair")
+script = ExtResource("11_float")
+bob_height = 2.0
+drift_speed = 3.0
+wrap_right = 640.0
+
+[node name="Plank" type="Sprite2D" parent="Debris"]
+position = Vector2(60, 610)
+texture = ExtResource("15_plank")
+script = ExtResource("11_float")
+drift_speed = 3.5
+wrap_right = 640.0
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="Boat" parent="World" instance=ExtResource("17_boat")]
+position = Vector2(-20, 240)
+
+[node name="FrontWater" type="Polygon2D" parent="World"]
+material = SubResource("ShaderMaterial_front_water")
+polygon = PackedVector2Array(0, 529, 1280, 529, 1280, 720, 0, 720)
+
+[node name="Rain" type="CPUParticles2D" parent="."]
+z_index = 10
+position = Vector2(700, -40)
+amount = 320
+lifetime = 0.9
+preprocess = 1.0
+texture = SubResource("GradientTexture2D_rain")
+emission_shape = 3
+emission_rect_extents = Vector2(820, 10)
+direction = Vector2(-0.2, 1)
+spread = 3.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 850.0
+initial_velocity_max = 1050.0
+particle_flag_align_y = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Vignette" type="TextureRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_vignette")
+expand_mode = 1
+
+[node name="StatusBar" parent="UI" instance=ExtResource("18_status")]
+unique_name_in_owner = true
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 600.0
+offset_bottom = 92.0
+
+[node name="SuppliesPanel" parent="UI" instance=ExtResource("19_supplies")]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -160.0
+offset_right = 332.0
+offset_bottom = -12.0
+grow_vertical = 0
+
+[node name="Journal" parent="UI" instance=ExtResource("20_journal")]
+unique_name_in_owner = true
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -660.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="EndingPanel" parent="UI" instance=ExtResource("21_ending")]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -250.0
+offset_right = 360.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DayTransition" type="ColorRect" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.02, 0.03, 1)
+
+[node name="TransitionLabel" type="Label" parent="UI/DayTransition"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 56
+text = "วันที่ 1"
+horizontal_alignment = 1
+vertical_alignment = 1

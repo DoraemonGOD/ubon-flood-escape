@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"fish_hand_ok"
+weight = 30
+journal_lines = Array[String](["จับได้ตัวหนึ่ง! พอเป็นอาหารได้หนึ่งมื้อ"])
+supply_changes = {
+"canned_food": 1
+}
+
+[sub_resource type="Resource" id="Outcome_2"]
+script = ExtResource("3_outcome")
+id = &"fish_hand_fail"
+weight = 70
+journal_lines = Array[String](["ปลาลื่นหลุดมือไปหมด"])
+
+[sub_resource type="Resource" id="Choice_3"]
+script = ExtResource("2_choice")
+label = "ลองจับด้วยมือ"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1"), SubResource("Outcome_2")])
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"fish_rope"
+weight = 1
+journal_lines = Array[String](["เราใช้เชือกกับเข็มกลัดทำเบ็ด ได้ปลามาสองตัว พอเป็นอาหารได้สองมื้อ"])
+supply_changes = {
+"canned_food": 2
+}
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ใช้เชือกทำสายเบ็ด"
+required_item = &"rope"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_4")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"fish"
+title = "ปลาว่ายวนรอบเรือ"
+text = "ปลาจากบ่อเลี้ยงที่น้ำท่วมว่ายวนอยู่รอบเรือเป็นฝูง ถ้าจับได้คงได้กินอิ่มสักมื้อ"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_3"), SubResource("Choice_5")])
+min_day = 3
+max_day = 28
+weight = 6
+once = false
+time_of_day = 1

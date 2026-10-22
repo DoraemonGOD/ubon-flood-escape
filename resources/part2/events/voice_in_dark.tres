@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"voice_ignored"
+weight = 1
+journal_lines = Array[String](["เสียงร้องค่อย ๆ เงียบหายไป... ไม่มีใครพูดถึงมันอีก"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "อยู่เงียบ ๆ"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"voice_light"
+weight = 1
+journal_lines = Array[String](["เราส่องไฟจนเจอเขาเกาะเสาบ้านอยู่ เขาว่ายมาพักที่เรือ", "ก่อนจากไปเขายกยาให้เราหนึ่งกล่องเป็นการขอบคุณ"])
+supply_changes = {
+"medicine": 1
+}
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "ส่องไฟฉายหาตัวเขา"
+required_item = &"flashlight"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[sub_resource type="Resource" id="Outcome_5"]
+script = ExtResource("3_outcome")
+id = &"voice_rope"
+weight = 1
+journal_lines = Array[String](["เราโยนเชือกไปให้ เขาดึงตัวเองข้ามน้ำมาได้", "เขาแบ่งอาหารกระป๋องที่ติดตัวมาให้เราสองกระป๋อง"])
+supply_changes = {
+"canned_food": 2
+}
+
+[sub_resource type="Resource" id="Choice_6"]
+script = ExtResource("2_choice")
+label = "โยนเชือกให้เขา"
+required_item = &"rope"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_5")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"voice_in_dark"
+title = "เสียงขอความช่วยเหลือ"
+text = "เสียงผู้ชายคนหนึ่งตะโกนขอความช่วยเหลือมาจากความมืด ฟังดูเหมือนเขาเกาะอยู่บนหลังคาบ้านไม่ไกลจากเรา"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4"), SubResource("Choice_6")])
+min_day = 2
+max_day = 14
+weight = 10
+once = true
+time_of_day = 3

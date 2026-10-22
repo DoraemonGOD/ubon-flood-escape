@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LocationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/location_data.gd" id="1_loc"]
+
+[resource]
+script = ExtResource("1_loc")
+id = &"field"
+name_th = "ทุ่งนาน้ำท่วม"
+description = "น้ำกว้างสุดตา ปลาเยอะ แต่ไม่มีที่หลบฝนและงูชุม"
+loot_table = {
+"canned_food": 40,
+"water": 20,
+"rope": 10
+}
+obstacles = PackedStringArray("res://assets/environments/outside/branch.svg", "res://assets/environments/outside/log.svg")

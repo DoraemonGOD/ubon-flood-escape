@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="LocationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/location_data.gd" id="1_loc"]
+
+[resource]
+script = ExtResource("1_loc")
+id = &"village"
+name_th = "หมู่บ้านริมน้ำ"
+description = "บ้านยกพื้นของเพื่อนบ้าน บางหลังยังมีคนอยู่ ของใช้ในบ้านลอยออกมาเต็มน้ำ"
+loot_table = {
+"canned_food": 25,
+"water": 25,
+"batteries": 15,
+"medicine": 10,
+"rope": 10
+}
+obstacles = PackedStringArray("res://assets/environments/outside/log.svg", "res://assets/environments/outside/floating_chair.svg")

@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"relief_kind"
+weight = 40
+journal_lines = Array[String](["เจ้าหน้าที่ใจดีแอบยื่นน้ำให้ขวดหนึ่ง"])
+supply_changes = {
+"water": 1
+}
+
+[sub_resource type="Resource" id="Outcome_2"]
+script = ExtResource("3_outcome")
+id = &"relief_none"
+weight = 60
+journal_lines = Array[String](["เจ้าหน้าที่ขอโทษ ของมีจำกัดสำหรับคนที่ลงทะเบียนเท่านั้น"])
+
+[sub_resource type="Resource" id="Choice_3"]
+script = ExtResource("2_choice")
+label = "ขอโดยไม่มีเอกสาร"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1"), SubResource("Outcome_2")])
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"relief_registered"
+weight = 1
+journal_lines = Array[String](["เจ้าหน้าที่จดชื่อครอบครัวเราไว้ และให้น้ำ 3 ขวดกับอาหาร 2 กระป๋อง", "เขาบอกว่าจะแจ้งตำแหน่งของเราให้หน่วยกู้ภัย"])
+supply_changes = {
+"water": 3,
+"canned_food": 2
+}
+set_flags = PackedStringArray("registered")
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ยื่นเอกสารลงทะเบียน"
+required_item = &"documents"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_4")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"relief_boat"
+title = "เรือแจกของ อบต."
+text = "เรือของ อบต. แล่นผ่านมา เจ้าหน้าที่ตะโกนว่าจะแจกน้ำและอาหารให้ผู้ที่ลงทะเบียน ต้องมีบัตรประชาชนหรือทะเบียนบ้าน"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_3"), SubResource("Choice_5")])
+min_day = 3
+max_day = 14
+weight = 14
+once = true
+time_of_day = 1

@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"leak_bail"
+weight = 1
+journal_lines = Array[String](["ทุกคนผลัดกันวิดน้ำจนหมดแรง รอยรั่วยังอยู่ แต่เรายังไม่จม", "คืนนั้นทุกคนหิวกว่าเดิม"])
+extra_hunger_days = 1
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ผลัดกันวิดน้ำทั้งคืน"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"leak_fixed"
+weight = 1
+journal_lines = Array[String](["เราผูกเรือกับหลังคาบ้าน ปีนขึ้นไปหาเศษผ้ายางมาอุดรอยรั่วได้สำเร็จ"])
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "ผูกเรือกับหลังคาบ้านแล้วปีนหาของมาอุด"
+required_item = &"rope"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"leak"
+title = "เรือรั่ว"
+text = "น้ำซึมเข้ามาทางรอยแตกที่ท้องเรือ ถ้าไม่ทำอะไรสักอย่าง เรือคงจมภายในไม่กี่วัน"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4")])
+min_day = 4
+max_day = 26
+weight = 8
+once = true

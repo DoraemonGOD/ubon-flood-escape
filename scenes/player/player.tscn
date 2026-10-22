@@ -1,0 +1,64 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/player_frames.tres" id="2_frames"]
+[ext_resource type="AnimationLibrary" path="res://assets/characters/player_animations.tres" id="3_anims"]
+[ext_resource type="Script" path="res://scripts/inventory/carry_inventory.gd" id="4_carry"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 8.0
+height = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_reach"]
+radius = 44.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_frames")
+animation = &"idle_down"
+offset = Vector2(0, -42)
+
+[node name="CarryStack" type="Node2D" parent="."]
+
+[node name="Item1" type="Sprite2D" parent="CarryStack"]
+visible = false
+scale = Vector2(0.42, 0.42)
+
+[node name="Item2" type="Sprite2D" parent="CarryStack"]
+visible = false
+scale = Vector2(0.42, 0.42)
+
+[node name="Item3" type="Sprite2D" parent="CarryStack"]
+visible = false
+scale = Vector2(0.42, 0.42)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": ExtResource("3_anims")
+}
+
+[node name="CarryInventory" type="Node" parent="."]
+script = ExtResource("4_carry")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_reach")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -40)
+zoom = Vector2(0.9, 0.9)
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0

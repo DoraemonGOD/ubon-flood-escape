@@ -1,0 +1,27 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/survivors/grandpa_idle0.svg" id="1_idle0"]
+[ext_resource type="Texture2D" path="res://assets/characters/survivors/grandpa_idle1.svg" id="2_idle1"]
+[ext_resource type="Texture2D" path="res://assets/characters/survivors/grandpa_look.svg" id="3_look"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_idle0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_idle1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.3
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_look")
+}],
+"loop": false,
+"name": &"look",
+"speed": 1.0
+}]

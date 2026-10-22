@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"rescue_wait"
+weight = 1
+journal_lines = Array[String](["เรือแล่นผ่านไปโดยไม่เห็นเรา..."])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "รอให้เขาเข้ามาใกล้กว่านี้"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"rescue_shout_ok"
+weight = 35
+journal_lines = Array[String](["เสียงตะโกนของเราดังพอ! เรือกู้ภัยหันหัวมาทางเรา"])
+ending = &"rescued_signal"
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"rescue_shout_fail"
+weight = 65
+journal_lines = Array[String](["เสียงเครื่องยนต์กลบเสียงเราจนหมด เรือแล่นผ่านไป..."])
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ตะโกนสุดเสียง"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"rescue_light"
+weight = 1
+journal_lines = Array[String](["เรือกู้ภัยเห็นแสงไฟของเรา! พวกเขาแล่นเข้ามาและพาทุกคนขึ้นเรือ"])
+ending = &"rescued_signal"
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ส่องไฟฉายส่งสัญญาณ"
+required_item = &"flashlight"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"rescue_signal"
+title = "เสียงเครื่องยนต์ในความมืด"
+text = "ดึกแล้ว ได้ยินเสียงเครื่องยนต์เรือดังมาแต่ไกล ไฟสปอตไลต์กวาดไปมาบนผิวน้ำ
+
+วิทยุบอกว่าหน่วยกู้ภัยมองหาแสงไฟ — นี่คือโอกาสของเรา!"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5"), SubResource("Choice_7")])
+min_day = 12
+max_day = 99
+weight = 22
+once = false
+required_flags = PackedStringArray("knows_signal")
+time_of_day = 3

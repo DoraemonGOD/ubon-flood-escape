@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"neighbor_gift"
+weight = 1
+journal_lines = Array[String](["ได้น้ำสองขวดกับอาหารสองกระป๋องจากเพื่อนบ้าน น้ำใจยังมีอยู่แม้ในวันแบบนี้"])
+supply_changes = {
+"water": 2,
+"canned_food": 2
+}
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "รับไว้ด้วยความขอบคุณ"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"neighbor_returns"
+title = "เพื่อนบ้านกลับมา"
+text = "แม่ลูกอ่อนคนเดิมพายเรือกลับมา ลูกของเธอหายดีแล้ว และเธอนำของมาฝากเรา"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2")])
+min_day = 6
+max_day = 99
+weight = 40
+once = true
+required_flags = PackedStringArray("helped_neighbor")
+time_of_day = 1

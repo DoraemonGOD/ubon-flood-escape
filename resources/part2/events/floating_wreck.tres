@@ -1,0 +1,68 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"wreck_skip"
+weight = 1
+journal_lines = Array[String](["ซากบ้านลอยลับตาไป"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ปล่อยผ่านไป"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"wreck_ok"
+weight = 55
+journal_lines = Array[String](["ค้นใต้หลังคาเจอยาและอาหาร"])
+supply_changes = {
+"canned_food": 1,
+"medicine": 1
+}
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"wreck_fall"
+weight = 45
+journal_lines = Array[String](["หลังคาพลิก {target} ตกลงไปกระแทกเศษไม้"])
+condition_target = 2
+condition = 2
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ปีนขึ้นไปค้น"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"wreck_rope"
+weight = 1
+journal_lines = Array[String](["ใช้เชือกดึงหลังคาเข้ามาเทียบเรือ ค้นได้ทั้งยา อาหาร และถ่าน"])
+supply_changes = {
+"canned_food": 1,
+"medicine": 1,
+"batteries": 1
+}
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ใช้เชือกดึงเข้ามาแล้วค้น"
+required_item = &"rope"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"floating_wreck"
+title = "ซากบ้านลอยมา"
+text = "หลังคาบ้านทั้งหลังลอยผ่านมาช้า ๆ ใต้หลังคายังมีตู้และกล่องติดอยู่"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5"), SubResource("Choice_7")])
+min_day = 3
+max_day = 99
+weight = 10
+once = false
+time_of_day = 1

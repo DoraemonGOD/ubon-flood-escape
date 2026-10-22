@@ -1,0 +1,458 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cutscene/intro_cutscene.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/environments/walls/back_wall.svg" id="2_wall"]
+[ext_resource type="Texture2D" path="res://assets/environments/decor/window.svg" id="3_window"]
+[ext_resource type="Texture2D" path="res://assets/environments/decor/picture_stupa.svg" id="4_stupa"]
+[ext_resource type="Texture2D" path="res://assets/environments/decor/calendar.svg" id="5_calendar"]
+[ext_resource type="Texture2D" path="res://assets/environments/decor/clock.svg" id="6_clock"]
+[ext_resource type="Texture2D" path="res://assets/environments/decor/buddha_shelf.svg" id="7_shelf"]
+[ext_resource type="Texture2D" path="res://assets/environments/furniture/sofa.svg" id="8_sofa"]
+[ext_resource type="Texture2D" path="res://assets/environments/furniture/rug.svg" id="9_rug"]
+[ext_resource type="SpriteFrames" path="res://resources/part2/survivors/grandpa_frames.tres" id="10_grandpa"]
+[ext_resource type="SpriteFrames" path="res://resources/part2/survivors/mother_frames.tres" id="11_mother"]
+[ext_resource type="SpriteFrames" path="res://resources/part2/survivors/sister_frames.tres" id="12_sister"]
+[ext_resource type="SpriteFrames" path="res://resources/part2/survivors/player_frames.tres" id="13_player"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/tv_back.svg" id="14_tvback"]
+[ext_resource type="Shader" path="res://assets/environments/flood_water.gdshader" id="15_water"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/anchor.svg" id="16_anchor"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/news_map.svg" id="17_map"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/news_flood.svg" id="18_flood"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/crt_glass.svg" id="19_glass"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/crt_frame.svg" id="20_frame"]
+[ext_resource type="AudioStream" path="res://assets/audio/news_jingle.wav" id="21_jingle"]
+[ext_resource type="AudioStream" path="res://assets/audio/thunder.wav" id="22_thunder"]
+[ext_resource type="Texture2D" path="res://assets/environments/furniture/plant.svg" id="23_plant"]
+[ext_resource type="Texture2D" path="res://assets/environments/furniture/fan.svg" id="24_fan"]
+
+[sub_resource type="Gradient" id="Gradient_light"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
+gradient = SubResource("Gradient_light")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
+shader = ExtResource("15_water")
+shader_parameter/deep_color = Color(0.12, 0.22, 0.24, 1)
+shader_parameter/shallow_color = Color(0.2, 0.33, 0.35, 1)
+shader_parameter/light_color = Color(0.5, 0.6, 0.65, 1)
+shader_parameter/wave_scale = 0.012
+shader_parameter/ripple_cell = 40.0
+shader_parameter/opacity = 0.85
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_static"]
+frequency = 0.6
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_static"]
+width = 480
+height = 272
+noise = SubResource("FastNoiseLite_static")
+
+[sub_resource type="Gradient" id="Gradient_studio"]
+colors = PackedColorArray(0.12, 0.2, 0.34, 1, 0.07, 0.11, 0.2, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_studio"]
+gradient = SubResource("Gradient_studio")
+width = 64
+height = 64
+fill_to = Vector2(0, 1)
+
+[node name="IntroCutscene" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="RoomTint" type="CanvasModulate" parent="."]
+color = Color(0.36, 0.38, 0.52, 1)
+
+[node name="Room" type="Node2D" parent="."]
+position = Vector2(640, 400)
+
+[node name="Inner" type="Node2D" parent="Room"]
+position = Vector2(-640, -400)
+
+[node name="Wall" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(-40, -40)
+scale = Vector2(2.2, 4.1)
+texture = ExtResource("2_wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 640, 128)
+texture_repeat = 2
+
+[node name="Floor" type="ColorRect" parent="Room/Inner"]
+offset_left = -60.0
+offset_top = 480.0
+offset_right = 1340.0
+offset_bottom = 800.0
+color = Color(0.48, 0.33, 0.22, 1)
+
+[node name="Rug" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(730, 640)
+scale = Vector2(3.4, 1.6)
+texture = ExtResource("9_rug")
+
+[node name="Window" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(1100, 230)
+scale = Vector2(2.3, 2.3)
+texture = ExtResource("3_window")
+
+[node name="Stupa" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(170, 210)
+scale = Vector2(1.7, 1.7)
+texture = ExtResource("4_stupa")
+
+[node name="Calendar" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(330, 230)
+scale = Vector2(1.6, 1.6)
+texture = ExtResource("5_calendar")
+
+[node name="Shelf" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(640, 150)
+scale = Vector2(1.7, 1.7)
+texture = ExtResource("7_shelf")
+
+[node name="Clock" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(850, 120)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("6_clock")
+
+[node name="Plant" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(1210, 560)
+scale = Vector2(2, 2)
+texture = ExtResource("23_plant")
+offset = Vector2(0, -40)
+
+[node name="Fan" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(430, 540)
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("24_fan")
+offset = Vector2(0, -50)
+
+[node name="Sofa" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(740, 600)
+scale = Vector2(3.4, 3.4)
+texture = ExtResource("8_sofa")
+centered = false
+offset = Vector2(-88, -98)
+
+[node name="Family" type="Node2D" parent="Room/Inner"]
+
+[node name="Grandpa" type="AnimatedSprite2D" parent="Room/Inner/Family"]
+position = Vector2(565, 560)
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("10_grandpa")
+animation = &"idle"
+autoplay = "idle"
+centered = false
+offset = Vector2(-48, -120)
+
+[node name="Mother" type="AnimatedSprite2D" parent="Room/Inner/Family"]
+position = Vector2(685, 560)
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("11_mother")
+animation = &"idle"
+autoplay = "idle"
+centered = false
+offset = Vector2(-48, -120)
+
+[node name="Sister" type="AnimatedSprite2D" parent="Room/Inner/Family"]
+position = Vector2(795, 562)
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("12_sister")
+animation = &"idle"
+autoplay = "idle"
+centered = false
+offset = Vector2(-48, -120)
+
+[node name="Player" type="AnimatedSprite2D" parent="Room/Inner/Family"]
+position = Vector2(910, 560)
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("13_player")
+animation = &"idle"
+autoplay = "idle"
+centered = false
+offset = Vector2(-48, -120)
+
+[node name="TvLight" type="PointLight2D" parent="Room/Inner"]
+position = Vector2(260, 520)
+color = Color(0.62, 0.78, 1, 1)
+energy = 1.3
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 5.5
+
+[node name="FloodWater" type="Polygon2D" parent="Room/Inner"]
+material = SubResource("ShaderMaterial_water")
+polygon = PackedVector2Array(-60, 760, 1340, 760, 1340, 900, -60, 900)
+
+[node name="TvBack" type="Sprite2D" parent="Room/Inner"]
+position = Vector2(230, 790)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("14_tvback")
+centered = false
+offset = Vector2(-180, -210)
+
+[node name="TvShot" type="Node2D" parent="."]
+
+[node name="Studio" type="Sprite2D" parent="TvShot"]
+position = Vector2(160, 84)
+scale = Vector2(15, 8.5)
+texture = SubResource("GradientTexture2D_studio")
+centered = false
+
+[node name="Anchor" type="Sprite2D" parent="TvShot"]
+position = Vector2(370, 340)
+scale = Vector2(1.15, 1.15)
+texture = ExtResource("16_anchor")
+
+[node name="Desk" type="ColorRect" parent="TvShot"]
+offset_left = 160.0
+offset_top = 420.0
+offset_right = 600.0
+offset_bottom = 630.0
+color = Color(0.17, 0.24, 0.36, 1)
+
+[node name="Map" type="Sprite2D" parent="TvShot"]
+position = Vector2(860, 300)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("17_map")
+
+[node name="NewsFlood" type="Sprite2D" parent="TvShot"]
+position = Vector2(860, 300)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("18_flood")
+
+[node name="CityLabel" type="Label" parent="TvShot"]
+offset_left = 930.0
+offset_top = 284.0
+offset_right = 1100.0
+offset_bottom = 314.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "อุบลราชธานี"
+
+[node name="MunLabel" type="Label" parent="TvShot"]
+offset_left = 640.0
+offset_top = 330.0
+offset_right = 780.0
+offset_bottom = 356.0
+theme_override_colors/font_color = Color(0.75, 0.88, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 17
+text = "แม่น้ำมูล"
+
+[node name="ChiLabel" type="Label" parent="TvShot"]
+offset_left = 690.0
+offset_top = 180.0
+offset_right = 830.0
+offset_bottom = 206.0
+theme_override_colors/font_color = Color(0.75, 0.88, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 17
+text = "แม่น้ำชี"
+
+[node name="Banner" type="ColorRect" parent="TvShot"]
+offset_left = 160.0
+offset_top = 432.0
+offset_right = 1120.0
+offset_bottom = 490.0
+color = Color(0.72, 0.13, 0.12, 1)
+
+[node name="Breaking" type="Label" parent="TvShot/Banner"]
+offset_left = 26.0
+offset_top = 6.0
+offset_right = 180.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(1, 0.92, 0.4, 1)
+theme_override_font_sizes/font_size = 28
+text = "ข่าวด่วน"
+vertical_alignment = 1
+
+[node name="Headline" type="Label" parent="TvShot/Banner"]
+offset_left = 170.0
+offset_top = 6.0
+offset_right = 950.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "น้ำท่วมฉับพลันทั้งตัวเมืองอุบลฯ คืนนี้"
+vertical_alignment = 1
+
+[node name="Ticker" type="Node2D" parent="TvShot"]
+position = Vector2(160, 492)
+
+[node name="Bar" type="ColorRect" parent="TvShot/Ticker"]
+clip_contents = true
+offset_right = 940.0
+offset_bottom = 40.0
+color = Color(0.1, 0.1, 0.12, 1)
+
+[node name="Text" type="Label" parent="TvShot/Ticker/Bar"]
+offset_left = 960.0
+offset_top = 4.0
+offset_right = 2400.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(1, 0.86, 0.4, 1)
+theme_override_font_sizes/font_size = 20
+text = "• ถนนทุกสายเข้า–ออกจังหวัดถูกตัดขาด  • เจ้าหน้าที่ยังเข้าไม่ถึงพื้นที่  • ระดับแม่น้ำมูลสูงสุดในรอบ 50 ปี  • ขอให้ประชาชนอพยพขึ้นที่สูง"
+
+[node name="Static" type="Sprite2D" parent="TvShot"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(160, 84)
+scale = Vector2(2, 2)
+texture = SubResource("NoiseTexture2D_static")
+centered = false
+
+[node name="Glass" type="Sprite2D" parent="TvShot"]
+position = Vector2(160, 84)
+texture = ExtResource("19_glass")
+centered = false
+
+[node name="Frame" type="Sprite2D" parent="TvShot"]
+texture = ExtResource("20_frame")
+centered = false
+
+[node name="Sfx" type="Node" parent="."]
+
+[node name="Jingle" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("21_jingle")
+volume_db = -6.0
+
+[node name="Thunder" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("22_thunder")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Lightning" type="ColorRect" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.9, 0.94, 1, 1)
+
+[node name="Subtitle" type="PanelContainer" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 160.0
+offset_top = -150.0
+offset_right = -160.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="UI/Subtitle"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Speaker" type="Label" parent="UI/Subtitle/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 22
+
+[node name="Line" type="Label" parent="UI/Subtitle/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+autowrap_mode = 3
+
+[node name="SkipButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -150.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 64.0
+grow_horizontal = 0
+focus_mode = 0
+theme_override_font_sizes/font_size = 18
+text = "ข้าม ▸▸"
+
+[node name="Hint" type="Label" parent="UI"]
+modulate = Color(1, 1, 1, 0.55)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -22.0
+offset_right = -16.0
+offset_bottom = -2.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 14
+text = "คลิก / Space = บรรทัดถัดไป   ·   Esc = ข้ามทั้งหมด"
+horizontal_alignment = 2
+
+[node name="TitleCard" type="Control" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Dark" type="ColorRect" parent="UI/TitleCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.04, 0.06, 0.92)
+
+[node name="VBox" type="VBoxContainer" parent="UI/TitleCard"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -110.0
+offset_right = 500.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="UI/TitleCard/VBox"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 64
+text = "น้ำจะมาถึงใน 60 วินาที"
+horizontal_alignment = 1
+
+[node name="Sub" type="Label" parent="UI/TitleCard/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "เก็บของที่จำเป็น และพาทุกคนในบ้านขึ้นเรือ"
+horizontal_alignment = 1
+
+[node name="Fade" type="ColorRect" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

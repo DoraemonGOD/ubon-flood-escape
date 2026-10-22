@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"feet_ignored"
+weight = 1
+journal_lines = Array[String](["แผลที่เท้าของ {subject} ลามและเริ่มมีไข้"])
+condition_target = 1
+condition = 1
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ปล่อยไว้"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"feet_medicine"
+weight = 1
+journal_lines = Array[String](["ยาทาช่วยให้แผลที่เท้าของ {subject} แห้งลง"])
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "ทายาให้"
+required_item = &"medicine"
+consumes_item = true
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[sub_resource type="Resource" id="Outcome_5"]
+script = ExtResource("3_outcome")
+id = &"feet_wash_ok"
+weight = 70
+journal_lines = Array[String](["ล้างเท้าด้วยน้ำสะอาดแล้วผึ่งลม แผลของ {subject} ดีขึ้น"])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"feet_wash_bad"
+weight = 30
+journal_lines = Array[String](["แผลของ {subject} ยังลามอยู่ดี"])
+condition_target = 1
+condition = 1
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ล้างด้วยน้ำสะอาดแล้วผึ่งให้แห้ง"
+required_item = &"water"
+consumes_item = true
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_5"), SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"foot_rot"
+title = "เท้าของ {subject} เปื่อย"
+text = "เท้าของ {subject} แช่น้ำมาหลายวันจนเปื่อยและคัน เริ่มมีแผลแดงเป็นจุด ๆ"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4"), SubResource("Choice_7")])
+min_day = 4
+max_day = 99
+weight = 10
+once = true
+has_subject = true

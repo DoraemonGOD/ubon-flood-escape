@@ -1,0 +1,43 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/game/boat.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/environments/boat/rescue_boat.svg" id="2_boat"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hull"]
+size = Vector2(240, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
+size = Vector2(170, 130)
+
+[node name="Boat" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_boat")
+centered = false
+offset = Vector2(-135, -130)
+
+[node name="Hull" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hull"]
+position = Vector2(0, -72)
+shape = SubResource("RectangleShape2D_hull")
+
+[node name="InteractionZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionZone"]
+position = Vector2(-215, -60)
+shape = SubResource("RectangleShape2D_zone")
+
+[node name="DropPoint" type="Marker2D" parent="."]
+position = Vector2(6, -78)
+
+[node name="CargoPile" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="PromptAnchor" type="Marker2D" parent="."]
+position = Vector2(-150, -150)

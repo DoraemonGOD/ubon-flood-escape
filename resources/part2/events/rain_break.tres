@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"break_rest"
+weight = 1
+journal_lines = Array[String](["ทุกคนได้ตากแดดและนอนพัก {target} อาการดีขึ้นมาก"])
+condition_target = 2
+condition = 0
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ตากเสื้อผ้า พักผ่อนให้เต็มที่"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"break_found"
+weight = 60
+journal_lines = Array[String](["พายไปไม่ไกลก็เจออาหารกระป๋องลอยติดกิ่งไม้"])
+supply_changes = {
+"canned_food": 1
+}
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"break_nothing"
+weight = 40
+journal_lines = Array[String](["พายวนอยู่ครึ่งวันแต่ไม่เจออะไร"])
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "รีบพายไปหาของตอนฝนหยุด"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"rain_break"
+title = "ฝนหยุดชั่วคราว"
+text = "เป็นครั้งแรกในรอบหลายวันที่ฝนหยุด แดดอ่อน ๆ ส่องลงมาที่เรือ"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5")])
+min_day = 4
+max_day = 99
+weight = 8
+once = false
+time_of_day = 1

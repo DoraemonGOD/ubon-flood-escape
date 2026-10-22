@@ -1,0 +1,76 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"rats_food"
+weight = 50
+journal_lines = Array[String](["หนูฉีกห่อเสบียง อาหารหายไปสองมื้อ"])
+supply_changes = {
+"canned_food": -2
+}
+
+[sub_resource type="Resource" id="Outcome_2"]
+script = ExtResource("3_outcome")
+id = &"rats_bite"
+weight = 50
+journal_lines = Array[String](["ไล่หนูไปได้ แต่ {target} ถูกหนูกัด แผลเริ่มอักเสบ"])
+condition_target = 2
+condition = 1
+
+[sub_resource type="Resource" id="Choice_3"]
+script = ExtResource("2_choice")
+label = "ไล่ด้วยไม้พาย"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1"), SubResource("Outcome_2")])
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"rats_rope"
+weight = 1
+journal_lines = Array[String](["เราใช้เชือกแขวนเสบียงไว้สูง หนูเอื้อมไม่ถึง"])
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "แขวนถุงเสบียงไว้กับเชือก"
+required_item = &"rope"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"rats_light"
+weight = 1
+journal_lines = Array[String](["แสงไฟทำให้หนูแตกฮือลงน้ำไป"])
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ส่องไฟฉายไล่"
+required_item = &"flashlight"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6")])
+
+[sub_resource type="Resource" id="Outcome_8"]
+script = ExtResource("3_outcome")
+id = &"rats_kitten"
+weight = 1
+journal_lines = Array[String](["ลูกแมวของน้องฝนกระโจนไล่หนูจนหนีลงน้ำหมด ทุกคนหัวเราะเป็นครั้งแรกในรอบหลายวัน"])
+
+[sub_resource type="Resource" id="Choice_9"]
+script = ExtResource("2_choice")
+label = "ปล่อยลูกแมวไล่หนู"
+required_flag = "kitten"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_8")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"rats"
+title = "หนูฝูงใหญ่"
+text = "กลางดึก หนูนับสิบตัวว่ายหนีน้ำขึ้นมาบนเรือ มันกัดแทะถุงเสบียงไม่หยุด"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_3"), SubResource("Choice_5"), SubResource("Choice_7"), SubResource("Choice_9")])
+min_day = 3
+max_day = 99
+weight = 15
+once = true
+locations = PackedStringArray("market", "village")
+time_of_day = 3

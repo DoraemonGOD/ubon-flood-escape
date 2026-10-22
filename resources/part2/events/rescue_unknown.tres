@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"unknown_wait"
+weight = 1
+journal_lines = Array[String](["เรือลำนั้นแล่นผ่านไปในความมืด"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "อยู่เงียบ ๆ"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"unknown_shout_ok"
+weight = 30
+journal_lines = Array[String](["เป็นเรือกู้ภัย! พวกเขาได้ยินเสียงเราและแล่นเข้ามาช่วย"])
+ending = &"rescued_boat"
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"unknown_shout_fail"
+weight = 70
+journal_lines = Array[String](["เรือแล่นผ่านไปโดยไม่ได้ยินเสียงเรา"])
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ตะโกนเรียก"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"unknown_light_ok"
+weight = 70
+journal_lines = Array[String](["เป็นเรือกู้ภัย! พวกเขาเห็นแสงไฟแล้วแล่นเข้ามาช่วยเรา"])
+ending = &"rescued_boat"
+
+[sub_resource type="Resource" id="Outcome_7"]
+script = ExtResource("3_outcome")
+id = &"unknown_light_fail"
+weight = 30
+journal_lines = Array[String](["แสงไฟของเราไกลเกินไป เรือลำนั้นไม่เห็น"])
+
+[sub_resource type="Resource" id="Choice_8"]
+script = ExtResource("2_choice")
+label = "ส่องไฟฉายเรียก"
+required_item = &"flashlight"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6"), SubResource("Outcome_7")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"rescue_unknown"
+title = "เรือลำใหญ่ในความมืด"
+text = "ดึกแล้ว มีเรือลำใหญ่แล่นผ่านมาไกล ๆ ไม่รู้ว่าเป็นเรือของใคร จะส่งเสียงเรียกดีไหม?"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5"), SubResource("Choice_8")])
+min_day = 16
+max_day = 99
+weight = 8
+once = false
+blocked_flags = PackedStringArray("knows_signal")
+time_of_day = 3

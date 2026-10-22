@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"tent_queue"
+weight = 1
+journal_lines = Array[String](["ต่อคิวอยู่ครึ่งวัน ได้น้ำหนึ่งขวดกับข้าวหนึ่งกล่อง"])
+supply_changes = {
+"water": 1,
+"canned_food": 1
+}
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ต่อคิว"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"tent_docs"
+weight = 1
+journal_lines = Array[String](["อาสาสมัครตรวจเอกสารแล้วให้ถุงยังชีพครอบครัว มีน้ำ อาหาร และยา"])
+supply_changes = {
+"water": 3,
+"canned_food": 3,
+"medicine": 1
+}
+set_flags = PackedStringArray("registered")
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "ยื่นเอกสารรับถุงยังชีพ"
+required_item = &"documents"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"relief_tent"
+title = "เต็นท์แจกอาหาร"
+text = "ที่เต็นท์บนสะพาน อาสาสมัครกำลังแจกข้าวกล่องและน้ำดื่ม คิวยาวเหยียด"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4")])
+min_day = 2
+max_day = 99
+weight = 25
+once = true
+locations = PackedStringArray("highway")
+time_of_day = 1

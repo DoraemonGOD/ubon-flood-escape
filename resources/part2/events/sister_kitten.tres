@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"kitten_left"
+weight = 1
+journal_lines = Array[String](["ขอนไม้ลอยไกลออกไป เสียงร้องค่อย ๆ หายไป"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ปล่อยมันไป"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"kitten_saved"
+weight = 1
+journal_lines = Array[String](["น้องฝนอุ้มลูกแมวไว้ทั้งคืน เป็นครั้งแรกที่เห็นเธอยิ้มตั้งแต่น้ำท่วม", "ลูกแมวตัวนี้อาจช่วยไล่หนูได้"])
+set_flags = PackedStringArray("kitten")
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "ให้น้องฝนช่วยมันขึ้นมา"
+required_survivor = &"sister"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"sister_kitten"
+title = "ลูกแมวบนขอนไม้"
+text = "ลูกแมวตัวเล็กเกาะขอนไม้ลอยมา ร้องเสียงแหบ เด็ก ๆ บนเรือมองมันไม่วางตา"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4")])
+min_day = 2
+max_day = 99
+weight = 12
+once = true
+time_of_day = 1

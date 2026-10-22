@@ -1,0 +1,107 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/survival_boat.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/environments/boat/night_boat_back.svg" id="2_back"]
+[ext_resource type="Texture2D" path="res://assets/environments/boat/night_boat_front.svg" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/environments/boat/oil_lamp.svg" id="4_lamp"]
+[ext_resource type="Script" path="res://scripts/part2/flicker_light.gd" id="5_flicker"]
+[ext_resource type="Texture2D" path="res://assets/environments/boat/beam_cone.svg" id="6_cone"]
+
+[sub_resource type="Gradient" id="Gradient_light"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
+gradient = SubResource("Gradient_light")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="SurvivalBoat" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Hull" type="Node2D" parent="."]
+position = Vector2(330, 300)
+
+[node name="Back" type="Sprite2D" parent="Hull"]
+position = Vector2(-330, -300)
+texture = ExtResource("2_back")
+centered = false
+
+[node name="Lamp" type="Sprite2D" parent="Hull"]
+position = Vector2(-206, -276)
+texture = ExtResource("4_lamp")
+centered = false
+offset = Vector2(-16, 0)
+
+[node name="LampLight" type="PointLight2D" parent="Hull"]
+position = Vector2(-206, -246)
+color = Color(1, 0.74, 0.4, 1)
+energy = 1.15
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 2.2
+script = ExtResource("5_flicker")
+flicker_amount = 0.12
+
+[node name="SurvivorSlots" type="Node2D" parent="Hull"]
+
+[node name="Slot1" type="Marker2D" parent="Hull/SurvivorSlots"]
+position = Vector2(-150, -50)
+
+[node name="Slot2" type="Marker2D" parent="Hull/SurvivorSlots"]
+position = Vector2(-50, -52)
+
+[node name="Slot3" type="Marker2D" parent="Hull/SurvivorSlots"]
+position = Vector2(-235, -62)
+
+[node name="Slot4" type="Marker2D" parent="Hull/SurvivorSlots"]
+position = Vector2(40, -56)
+
+[node name="Survivors" type="Node2D" parent="Hull"]
+y_sort_enabled = true
+
+[node name="SupplySlots" type="Node2D" parent="Hull"]
+
+[node name="Slot1" type="Marker2D" parent="Hull/SupplySlots"]
+position = Vector2(102, -132)
+
+[node name="Slot2" type="Marker2D" parent="Hull/SupplySlots"]
+position = Vector2(150, -132)
+
+[node name="Slot3" type="Marker2D" parent="Hull/SupplySlots"]
+position = Vector2(198, -130)
+
+[node name="Slot4" type="Marker2D" parent="Hull/SupplySlots"]
+position = Vector2(242, -124)
+
+[node name="Slot5" type="Marker2D" parent="Hull/SupplySlots"]
+position = Vector2(92, -92)
+
+[node name="Slot6" type="Marker2D" parent="Hull/SupplySlots"]
+position = Vector2(140, -92)
+
+[node name="Slot7" type="Marker2D" parent="Hull/SupplySlots"]
+position = Vector2(188, -94)
+
+[node name="Slot8" type="Marker2D" parent="Hull/SupplySlots"]
+position = Vector2(228, -102)
+
+[node name="Supplies" type="Node2D" parent="Hull"]
+y_sort_enabled = true
+
+[node name="FlashlightBeam" type="PointLight2D" parent="Hull"]
+visible = false
+rotation = 0.35
+color = Color(1, 0.96, 0.82, 1)
+energy = 1.1
+texture = ExtResource("6_cone")
+offset = Vector2(128, 0)
+texture_scale = 1.6
+script = ExtResource("5_flicker")
+flicker_amount = 0.05
+
+[node name="Front" type="Sprite2D" parent="Hull"]
+position = Vector2(-330, -300)
+texture = ExtResource("3_front")
+centered = false

@@ -1,0 +1,65 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"buffalo_left"
+weight = 1
+journal_lines = Array[String](["เสียงร้องของควายดังอยู่ทั้งวัน"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ปล่อยไว้ เราช่วยไม่ไหว"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"buffalo_hands"
+weight = 50
+journal_lines = Array[String](["ช่วยกันดันอยู่นานจนควายขึ้นแพได้ ลุงสัญญาว่าจะไม่ลืมบุญคุณ"])
+set_flags = PackedStringArray("farmer_friend")
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"buffalo_kick"
+weight = 50
+journal_lines = Array[String](["ควายตกใจดีด {target} บาดเจ็บ ส่วนควายก็ยังติดอยู่"])
+condition_target = 2
+condition = 2
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ช่วยดันด้วยมือเปล่า"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"buffalo_rope"
+weight = 1
+journal_lines = Array[String](["เราใช้เชือกช่วยลุงลากควายขึ้นแพได้ ลุงแบ่งข้าวสารกับปลาแห้งให้เป็นการขอบคุณ"])
+supply_changes = {
+"canned_food": 2
+}
+set_flags = PackedStringArray("farmer_friend")
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ช่วยลากด้วยเชือก"
+required_item = &"rope"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"buffalo"
+title = "ควายติดคันนา"
+text = "ควายตัวหนึ่งติดอยู่บนคันนาที่เหลือพื้นดินนิดเดียว ลุงเจ้าของพายเรือวนอยู่ใกล้ ๆ ร้องขอให้ช่วย"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5"), SubResource("Choice_7")])
+min_day = 2
+max_day = 99
+weight = 22
+once = true
+locations = PackedStringArray("field")
+time_of_day = 1

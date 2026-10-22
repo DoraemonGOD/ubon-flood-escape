@@ -1,0 +1,119 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/summary_screen.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ui/summary_bg.svg" id="2_bg"]
+[ext_resource type="Texture2D" path="res://assets/ui/divider.svg" id="3_divider"]
+
+[node name="Summary" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.25)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Paper" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+theme_type_variation = &"PaperPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Center/Paper"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Center/Paper/VBox"]
+layout_mode = 2
+theme_type_variation = &"PaperTitle"
+text = "สรุปของที่ขนขึ้นเรือ"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="Center/Paper/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+
+[node name="Divider" type="TextureRect" parent="Center/Paper/VBox"]
+modulate = Color(0.45, 0.35, 0.2, 1)
+layout_mode = 2
+texture = ExtResource("3_divider")
+stretch_mode = 3
+
+[node name="Grid" type="GridContainer" parent="Center/Paper/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 12
+columns = 4
+
+[node name="EmptyLabel" type="Label" parent="Center/Paper/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_font_sizes/font_size = 24
+text = "ไม่ได้เก็บอะไรมาเลย..."
+horizontal_alignment = 1
+
+[node name="MissingLabel" type="Label" parent="Center/Paper/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+theme_type_variation = &"PaperLabel"
+theme_override_colors/font_color = Color(0.55, 0.2, 0.12, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Center/Paper/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="Center/Paper/VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "เริ่มใหม่"
+
+[node name="MenuButton" type="Button" parent="Center/Paper/VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "กลับหน้าหลัก"
+
+[node name="ContinueButton" type="Button" parent="Center/Paper/VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "ออกเดินทาง (Part 2)"

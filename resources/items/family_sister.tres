@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/items/family_sister.svg" id="2_icon"]
+[ext_resource type="Texture2D" path="res://assets/characters/survivors/sister_idle0.svg" id="3_world"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"family_sister"
+name_th = "น้องฝน"
+name_en = "Little Sister"
+description = "น้องสาวคนเล็ก ตัวสั่นด้วยความกลัว ต้องพาขึ้นเรือ (ใช้ 2 ช่อง)"
+icon = ExtResource("2_icon")
+world_scale = 0.72
+weight = 0.0
+max_stack = 1
+category = &"person"
+slot_size = 2
+world_texture = ExtResource("3_world")
+survivor_id = &"sister"

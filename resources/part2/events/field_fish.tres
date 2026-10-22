@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"ffish_hand_ok"
+weight = 45
+journal_lines = Array[String](["จับได้ตัวหนึ่ง พอเป็นอาหารได้หนึ่งมื้อ"])
+supply_changes = {
+"canned_food": 1
+}
+
+[sub_resource type="Resource" id="Outcome_2"]
+script = ExtResource("3_outcome")
+id = &"ffish_hand_fail"
+weight = 55
+journal_lines = Array[String](["ปลาว่ายหนีไปหมด"])
+
+[sub_resource type="Resource" id="Choice_3"]
+script = ExtResource("2_choice")
+label = "ลองจับด้วยมือ"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1"), SubResource("Outcome_2")])
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"ffish_net"
+weight = 1
+journal_lines = Array[String](["เราใช้เชือกถักเป็นแหขนาดเล็ก จับปลาได้พอกินสามมื้อ"])
+supply_changes = {
+"canned_food": 3
+}
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ใช้เชือกถักเป็นแห"
+required_item = &"rope"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_4")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"field_fish"
+title = "ปลาชุมในทุ่ง"
+text = "น้ำในทุ่งใสกว่าที่อื่น ปลาตัวโตว่ายวนใต้เรือเป็นฝูง"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_3"), SubResource("Choice_5")])
+min_day = 2
+max_day = 99
+weight = 18
+once = false
+locations = PackedStringArray("field")
+time_of_day = 1

@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"mosq_ok"
+weight = 65
+journal_lines = Array[String](["คืนนั้นทุกคนนอนไม่หลับเพราะคัน แต่ไม่มีใครป่วย"])
+
+[sub_resource type="Resource" id="Outcome_2"]
+script = ExtResource("3_outcome")
+id = &"mosq_fever"
+weight = 35
+journal_lines = Array[String](["{target} เริ่มมีไข้สูง อาจเป็นไข้เลือดออก"])
+condition_target = 2
+condition = 1
+
+[sub_resource type="Resource" id="Choice_3"]
+script = ExtResource("2_choice")
+label = "ทนเอา"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1"), SubResource("Outcome_2")])
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"mosq_paddle"
+weight = 1
+journal_lines = Array[String](["ต้องพายออกไปไกล ทุกคนเหนื่อยและหิวกว่าเดิม แต่ไม่มีใครถูกกัดเพิ่ม"])
+extra_hunger_days = 1
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "พายเรือออกห่างจากต้นไม้"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"mosq_medicine"
+weight = 1
+journal_lines = Array[String](["ยาทาในกล่องยาช่วยกันยุงได้ทั้งคืน"])
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ใช้ยาทากันยุงในกล่องยา"
+required_item = &"medicine"
+consumes_item = true
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"mosquitoes"
+title = "ยุงชุมตอนพลบค่ำ"
+text = "พลบค่ำ ยุงฝูงใหญ่บินออกมาจากต้นไม้ริมน้ำ ทุกคนถูกกัดจนตัวลาย"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_3"), SubResource("Choice_5"), SubResource("Choice_7")])
+min_day = 2
+max_day = 99
+weight = 10
+once = false
+time_of_day = 2

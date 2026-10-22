@@ -1,0 +1,21 @@
+[gd_resource type="TileSet" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/environments/floor_atlas.svg" id="1_5gln0"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l7ypj"]
+texture = ExtResource("1_5gln0")
+texture_region_size = Vector2i(64, 48)
+0:0/0 = 0
+0:1/0 = 0
+1:0/0 = 0
+1:1/0 = 0
+2:0/0 = 0
+2:1/0 = 0
+3:0/0 = 0
+3:1/0 = 0
+4:0/0 = 0
+4:1/0 = 0
+
+[resource]
+tile_size = Vector2i(64, 48)
+sources/0 = SubResource("TileSetAtlasSource_l7ypj")

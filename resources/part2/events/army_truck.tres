@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"army_water"
+weight = 1
+journal_lines = Array[String](["ทหารยื่นน้ำให้ขวดหนึ่ง แต่บอกว่าไม่มีเอกสารใส่ชื่อในบัญชีไม่ได้"])
+supply_changes = {
+"water": 1
+}
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ไม่มีเอกสาร ขอแค่น้ำดื่ม"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"army_medic"
+weight = 1
+journal_lines = Array[String](["หน่วยแพทย์ทหารตรวจทุกคน ทำแผลและให้ยาคนที่ป่วย"])
+condition_target = 3
+condition = 0
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "ขอให้หน่วยแพทย์ตรวจทุกคน"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[sub_resource type="Resource" id="Outcome_5"]
+script = ExtResource("3_outcome")
+id = &"army_list"
+weight = 1
+journal_lines = Array[String](["ทหารจดชื่อทุกคนในครอบครัวเรา", "เขาบอกให้รออยู่แถวสะพานนี้ รถจะมารับในอีกไม่กี่วัน"])
+set_flags = PackedStringArray("army_list", "registered")
+
+[sub_resource type="Resource" id="Choice_6"]
+script = ExtResource("2_choice")
+label = "ยื่นเอกสารลงชื่ออพยพ"
+required_item = &"documents"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_5")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"army_truck"
+title = "รถทหารบนสะพาน"
+text = "ทหารกำลังจดรายชื่อผู้ประสบภัยเพื่อขึ้นรถอพยพรอบต่อไป ต้องยืนยันตัวตนด้วยบัตรประชาชนหรือทะเบียนบ้าน"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4"), SubResource("Choice_6")])
+min_day = 2
+max_day = 99
+weight = 35
+once = true
+locations = PackedStringArray("highway")
+time_of_day = 1

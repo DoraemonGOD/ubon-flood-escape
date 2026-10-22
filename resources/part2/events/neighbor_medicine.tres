@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"neighbor_refused"
+weight = 1
+journal_lines = Array[String](["เธอพยักหน้าเงียบ ๆ แล้วพายเรือจากไป"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ปฏิเสธ เราเองก็มีไม่พอ"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"neighbor_helped"
+weight = 1
+journal_lines = Array[String](["เธอขอบคุณทั้งน้ำตา แล้วพายเรือจากไป"])
+set_flags = PackedStringArray("helped_neighbor")
+
+[sub_resource type="Resource" id="Choice_4"]
+script = ExtResource("2_choice")
+label = "แบ่งยาให้"
+required_item = &"medicine"
+consumes_item = true
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"neighbor_medicine"
+title = "เพื่อนบ้านขอยา"
+text = "เรือของเพื่อนบ้านพายเข้ามาใกล้ แม่ลูกอ่อนขอยาลดไข้ให้ลูกที่กำลังป่วย เธอสัญญาว่าจะตอบแทน"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_4")])
+min_day = 4
+max_day = 16
+weight = 9
+once = true
+time_of_day = 1

@@ -1,0 +1,63 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/game/scavenging_level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/scavenging/house.tscn" id="2_house"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="3_player"]
+[ext_resource type="Script" path="res://scripts/game/scavenge_timer.gd" id="4_timer"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="6_pause"]
+[ext_resource type="AudioStream" path="res://assets/audio/pickup.wav" id="7_pickup"]
+[ext_resource type="AudioStream" path="res://assets/audio/error.wav" id="8_error"]
+[ext_resource type="AudioStream" path="res://assets/audio/tick.wav" id="9_tick"]
+[ext_resource type="AudioStream" path="res://assets/audio/time_up.wav" id="10_time_up"]
+[ext_resource type="PackedScene" path="res://scenes/scavenging/boat.tscn" id="11_boat"]
+[ext_resource type="AudioStream" path="res://assets/audio/throw.wav" id="12_throw"]
+[ext_resource type="AudioStream" path="res://assets/audio/thud.wav" id="13_thud"]
+
+[node name="ScavengingLevel" type="Node2D"]
+process_mode = 1
+script = ExtResource("1_level")
+
+[node name="World" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="House" parent="World" instance=ExtResource("2_house")]
+
+[node name="Player" parent="World" instance=ExtResource("3_player")]
+position = Vector2(448, 760)
+
+[node name="Boat" parent="World" instance=ExtResource("11_boat")]
+position = Vector2(785, 934)
+
+[node name="ScavengeTimer" type="Node" parent="."]
+script = ExtResource("4_timer")
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("6_pause")]
+
+[node name="Sfx" type="Node" parent="."]
+
+[node name="Pickup" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("7_pickup")
+volume_db = -6.0
+
+[node name="Error" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("8_error")
+volume_db = -8.0
+
+[node name="Tick" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("9_tick")
+volume_db = -10.0
+
+[node name="TimeUp" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("10_time_up")
+volume_db = -4.0
+
+[node name="Throw" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("12_throw")
+volume_db = -10.0
+
+[node name="Thud" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("13_thud")
+volume_db = -4.0

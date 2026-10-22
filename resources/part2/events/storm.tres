@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"storm_lost_items"
+weight = 50
+journal_lines = Array[String](["คลื่นซัดของบางอย่างตกน้ำหายไปในความมืด"])
+lose_random_supplies = 2
+
+[sub_resource type="Resource" id="Outcome_2"]
+script = ExtResource("3_outcome")
+id = &"storm_injured"
+weight = 50
+journal_lines = Array[String](["เรือกระแทกกิ่งไม้ {target} ถูกเหวี่ยงไปกระแทกกราบเรือจนบาดเจ็บ"])
+condition_target = 2
+condition = 2
+
+[sub_resource type="Resource" id="Choice_3"]
+script = ExtResource("2_choice")
+label = "จับกราบเรือไว้แน่น ๆ"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1"), SubResource("Outcome_2")])
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"storm_tied"
+weight = 1
+journal_lines = Array[String](["เราใช้เชือกผูกเรือไว้กับเสาไฟ เรือโคลงทั้งคืนแต่ไม่ลอยไปไหน"])
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ผูกเรือไว้กับเสาไฟด้วยเชือก"
+required_item = &"rope"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_4")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"storm"
+title = "พายุเข้า"
+text = "ลมกระโชกแรงจนเรือหมุนคว้าง คลื่นซัดเข้ามาในเรือ ถ้าเรือลอยไปชนอะไรเข้าคงไม่รอดแน่"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_3"), SubResource("Choice_5")])
+min_day = 2
+max_day = 22
+weight = 8
+once = false
+time_of_day = 2

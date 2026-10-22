@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/items/water.svg" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"water"
+name_th = "น้ำดื่ม"
+name_en = "Drinking Water"
+description = "น้ำสะอาดขวดใหญ่ สิ่งแรกที่ต้องมีเมื่อน้ำประปาใช้ไม่ได้"
+icon = ExtResource("2_icon")
+world_scale = 0.75
+weight = 1.5
+max_stack = 3
+category = &"water"

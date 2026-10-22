@@ -1,0 +1,72 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/part2/event_data.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/part2/event_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://scripts/part2/choice_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="Outcome_1"]
+script = ExtResource("3_outcome")
+id = &"store_skip"
+weight = 1
+journal_lines = Array[String](["เรามองร้านนั้นอยู่นาน แล้วตัดสินใจไม่เข้าไป"])
+
+[sub_resource type="Resource" id="Choice_2"]
+script = ExtResource("2_choice")
+label = "ไม่เสี่ยง"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_1")])
+
+[sub_resource type="Resource" id="Outcome_3"]
+script = ExtResource("3_outcome")
+id = &"store_dive_ok"
+weight = 55
+journal_lines = Array[String](["เราผลัดกันดำน้ำเข้าไป หยิบอาหารกระป๋องกับน้ำออกมาได้"])
+supply_changes = {
+"canned_food": 2,
+"water": 1
+}
+
+[sub_resource type="Resource" id="Outcome_4"]
+script = ExtResource("3_outcome")
+id = &"store_dive_cut"
+weight = 45
+journal_lines = Array[String](["{target} ถูกเศษกระจกบาดขาระหว่างดำน้ำ ได้ของมาแค่กระป๋องเดียว"])
+supply_changes = {
+"canned_food": 1
+}
+condition_target = 2
+condition = 2
+
+[sub_resource type="Resource" id="Choice_5"]
+script = ExtResource("2_choice")
+label = "ดำน้ำเข้าไปค้น"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_3"), SubResource("Outcome_4")])
+
+[sub_resource type="Resource" id="Outcome_6"]
+script = ExtResource("3_outcome")
+id = &"store_light"
+weight = 1
+journal_lines = Array[String](["แสงไฟฉายทำให้เห็นของบนชั้นบนสุด เราเก็บอาหาร น้ำ และถ่านมาได้โดยไม่ต้องดำน้ำ"])
+supply_changes = {
+"canned_food": 2,
+"water": 2,
+"batteries": 1
+}
+
+[sub_resource type="Resource" id="Choice_7"]
+script = ExtResource("2_choice")
+label = "ส่องไฟฉายหาของบนชั้นสูง"
+required_item = &"flashlight"
+outcomes = Array[ExtResource("3_outcome")]([SubResource("Outcome_6")])
+
+[resource]
+script = ExtResource("1_event")
+id = &"market_store"
+title = "ร้านสะดวกซื้อจมน้ำ"
+text = "ร้านสะดวกซื้อหัวมุมจมน้ำครึ่งหนึ่ง ประตูกระจกแตก ข้างในมืดสนิท แต่ชั้นบนสุดยังมีของวางอยู่"
+choices = Array[ExtResource("2_choice")]([SubResource("Choice_2"), SubResource("Choice_5"), SubResource("Choice_7")])
+min_day = 2
+max_day = 99
+weight = 25
+once = true
+locations = PackedStringArray("market")
+time_of_day = 1
