@@ -24,6 +24,7 @@
 [ext_resource type="AudioStream" path="res://assets/audio/thunder.wav" id="22_thunder"]
 [ext_resource type="Texture2D" path="res://assets/environments/furniture/plant.svg" id="23_plant"]
 [ext_resource type="Texture2D" path="res://assets/environments/furniture/fan.svg" id="24_fan"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_skip.svg" id="90_skip"]
 
 [sub_resource type="Gradient" id="Gradient_light"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -380,7 +381,9 @@ offset_bottom = 64.0
 grow_horizontal = 0
 focus_mode = 0
 theme_override_font_sizes/font_size = 18
-text = "ข้าม ▸▸"
+text = "ข้าม"
+icon = ExtResource("90_skip")
+icon_alignment = 2
 
 [node name="Hint" type="Label" parent="UI"]
 modulate = Color(1, 1, 1, 0.55)

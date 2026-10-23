@@ -160,7 +160,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.13, 0.118, 0.106, 1)
 theme_override_font_sizes/font_size = 38
-text = "↑  W"
+text = "W"
 horizontal_alignment = 1
 
 [node name="QteBar" type="ProgressBar" parent="Hud/QtePrompt/VBox"]
@@ -204,28 +204,28 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 focus_mode = 0
-text = "←"
+text = ""
 
 [node name="ArrowUp" type="Button" parent="Hud/Arrows"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 focus_mode = 0
-text = "↑"
+text = ""
 
 [node name="ArrowDown" type="Button" parent="Hud/Arrows"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 focus_mode = 0
-text = "↓"
+text = ""
 
 [node name="ArrowRight" type="Button" parent="Hud/Arrows"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 focus_mode = 0
-text = "→"
+text = ""
 
 [node name="VoyageResult" type="PanelContainer" parent="Hud"]
 unique_name_in_owner = true
@@ -267,4 +267,4 @@ autowrap_mode = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-text = "ถึงที่หมาย ▸"
+text = "ถึงที่หมาย"

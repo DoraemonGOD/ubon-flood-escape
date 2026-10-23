@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" path="res://assets/ui/divider.svg" id="6_divider"]
 [ext_resource type="Texture2D" path="res://assets/items/radio.svg" id="7_radio"]
 [ext_resource type="Script" path="res://scripts/ui/journal/voyage_page.gd" id="8_voyage"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_tri_left.svg" id="90_tri_left"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_tri_right.svg" id="91_tri_right"]
 
 [node name="Journal" type="PanelContainer"]
 theme_type_variation = &"PaperPanel"
@@ -246,12 +248,12 @@ theme_override_constants/separation = 8
 [node name="PrevButton" type="Button" parent="VBox/Footer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "◀"
+icon = ExtResource("90_tri_left")
 
 [node name="NextButton" type="Button" parent="VBox/Footer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "▶"
+icon = ExtResource("91_tri_right")
 
 [node name="Spacer" type="Control" parent="VBox/Footer"]
 layout_mode = 2
@@ -261,4 +263,6 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
-text = "จบวัน ▸"
+text = "จบวัน"
+icon = ExtResource("91_tri_right")
+icon_alignment = 2

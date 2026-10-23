@@ -58,5 +58,5 @@ func refresh() -> void:
 			anyone_thirsty = true
 	tabs[1].text = TAB_NAMES[1] + (" •" if anyone_thirsty and SurvivalState.rations.is_empty() else "")
 	tabs[4].text = TAB_NAMES[4] + (" •" if SurvivalState.can_voyage() and SurvivalState.voyage_destination == &"" else "")
-	end_day_button.text = "ออกเรือ ▸" if SurvivalState.voyage_destination != &"" else "จบวัน ▸"
+	end_day_button.text = "ออกเรือ" if SurvivalState.voyage_destination != &"" else "จบวัน"
 	end_day_button.disabled = SurvivalState.is_finished()

@@ -783,6 +783,23 @@ function touchUi() {
   save("ui/icon_rotate.svg", svg(200, 160, rot));
 }
 
+// Arrow and triangle icons used instead of the ← ↑ ↓ → ▸ ◀ ▶ glyphs (the bundled fonts have none)
+function glyphIcons() {
+  seed = 91;
+  const INK = "#2b2926";
+  const rot = (pts, deg, c) => pts.map(([x, y]) => {
+    const r = (deg * Math.PI) / 180;
+    return [c + (x - c) * Math.cos(r) - (y - c) * Math.sin(r), c + (x - c) * Math.sin(r) + (y - c) * Math.cos(r)];
+  });
+  const arrow = [[20, 4], [36, 20], [26, 20], [26, 36], [14, 36], [14, 20], [4, 20]]; // pointing up in a 40x40 box
+  for (const [name, deg] of [["up", 0], ["right", 90], ["down", 180], ["left", 270]])
+    save("ui/icon_arrow_" + name + ".svg", svg(40, 40, shape(rot(arrow, deg, 20), INK, { stroke: INK, sw: 2.5, w: 0.3 })));
+  const tri = [[5, 3], [17, 10], [5, 17]];
+  save("ui/icon_tri_right.svg", svg(20, 20, shape(tri, INK, { stroke: INK, sw: 2, w: 0.2 })));
+  save("ui/icon_tri_left.svg", svg(20, 20, shape(tri.map(([x, y]) => [20 - x, y]), INK, { stroke: INK, sw: 2, w: 0.2 })));
+  save("ui/icon_skip.svg", svg(30, 20, shape(tri, INK, { stroke: INK, sw: 2, w: 0.2 }) + shape(tri.map(([x, y]) => [x + 11, y]), INK, { stroke: INK, sw: 2, w: 0.2 })));
+}
+
 // ------------------------------------------------------------- backgrounds
 function templeSilhouette(x, base, sc, color) {
   // Square, tiered white-stupa silhouette inspired by Ubon temples (not a copy of any game asset)
@@ -1260,5 +1277,6 @@ part2bArt();
 part2cArt();
 ui();
 touchUi();
+glyphIcons();
 backgrounds();
 console.log(`generated ${count} svg files`);

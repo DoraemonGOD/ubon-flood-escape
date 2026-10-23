@@ -11,7 +11,13 @@ extends CanvasLayer
 signal finished(collected: PackedStringArray, hits: PackedStringArray)
 
 const DIRS := [&"move_up", &"move_down", &"move_left", &"move_right"]
-const DIR_TEXT := {&"move_up": "↑  W", &"move_down": "↓  S", &"move_left": "←  A", &"move_right": "→  D"}
+## Keyboard letter shown under the arrow in the prompt (hidden on phones).
+const DIR_KEY := {&"move_up": "W", &"move_down": "S", &"move_left": "A", &"move_right": "D"}
+## Drawn arrows: the web build's fonts have no arrow glyphs.
+const DIR_ICON := {
+	&"move_up": preload("res://assets/ui/icon_arrow_up.svg"), &"move_down": preload("res://assets/ui/icon_arrow_down.svg"),
+	&"move_left": preload("res://assets/ui/icon_arrow_left.svg"), &"move_right": preload("res://assets/ui/icon_arrow_right.svg"),
+}
 const CATCH_X := 470.0
 const SPAWN_X := 1380.0
 const SPEED := 330.0
@@ -39,6 +45,8 @@ var _time := 0.0
 @onready var boat: Node2D = $Boat
 @onready var floaters: Node2D = $Floaters
 @onready var rain: CPUParticles2D = $Rain
+var _prompt_arrow: TextureRect
+
 @onready var title_label: Label = %VoyageTitle
 @onready var score_label: Label = %VoyageScore
 @onready var prompt: PanelContainer = %QtePrompt
@@ -58,6 +66,19 @@ func _ready() -> void:
 	arrive_button.pressed.connect(func() -> void: finished.emit(collected, hits))
 	for i in arrows.size():
 		arrows[i].pressed.connect(press.bind(DIRS[i]))
+		arrows[i].text = ""
+		arrows[i].icon = DIR_ICON[DIRS[i]]
+		arrows[i].icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_prompt_arrow = TextureRect.new()
+	_prompt_arrow.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	_prompt_arrow.custom_minimum_size = Vector2(0, 48)
+	prompt_label.get_parent().add_child(_prompt_arrow)
+	prompt_label.get_parent().move_child(_prompt_arrow, 0)
+	prompt_label.visible = not Platform.is_mobile()
+	if Platform.is_mobile():
+		$Hud/TopPanel/VBox/Hint.text = "แตะปุ่มลูกศรมุมขวาล่างตามป้ายให้ทัน — ได้ของ / หลบสิ่งกีดขวาง"
+	arrive_button.icon = preload("res://assets/ui/icon_tri_right.svg")
+	arrive_button.icon_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 
 
 ## Call right after adding to the tree.
@@ -154,7 +175,8 @@ func _move_active(delta: float) -> void:
 	var time_to_boat := (node.position.x - CATCH_X) / SPEED
 	if not _active.prompting and time_to_boat <= window:
 		_active.prompting = true
-		prompt_label.text = DIR_TEXT[_active.dir]
+		prompt_label.text = DIR_KEY[_active.dir]
+		_prompt_arrow.texture = DIR_ICON[_active.dir]
 		prompt.show()
 		if auto_play >= 0.0:
 			var ok := SurvivalState.rng.randf() < auto_play
@@ -225,7 +247,7 @@ func _finish() -> void:
 	if not hits.is_empty():
 		lines.append("ชนสิ่งกีดขวาง %d ครั้ง: %s" % [hits.size(), ", ".join(hits)])
 	result_text.text = "\n".join(lines)
-	arrive_button.text = "ถึง%s ▸" % destination.name_th
+	arrive_button.text = "ถึง%s" % destination.name_th
 	result_panel.show()
 	arrive_button.grab_focus()
 	if auto_play >= 0.0:
