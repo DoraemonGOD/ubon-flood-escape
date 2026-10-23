@@ -22,6 +22,8 @@ func _ready() -> void:
 	resume_button.pressed.connect(close)
 	restart_button.pressed.connect(GameState.start_new_game)
 	menu_button.pressed.connect(GameState.go_to_main_menu)
+	if Platform.is_mobile():
+		$Center/Panel/Margin/VBox/Help.text = "จอยสติ๊กซ้าย = เดิน (ดันสุด = วิ่ง)   หยิบ = เก็บของ / พาคน\nโยน = โยนของขึ้นเรือ   II = หยุดเกม / เล่นต่อ"
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -746,6 +746,43 @@ function ui() {
   save("ui/divider.svg", svg(200, 32, s));
 }
 
+// Touch controls (mobile) + platform picker icons
+function touchUi() {
+  seed = 77;
+  const ring = (c, r, fill, op, stroke, sw) => E(c, c, r, r, fill, { stroke, sw, op });
+  // action button 132x132: idle = dark glass with a mustard rim, pressed = filled mustard
+  save("ui/touch_button.svg", svg(132, 132, ring(66, 60, "#23211d", 0.62, P.ink, 4) + E(66, 66, 54, 54, "none", { stroke: P.mustardL, sw: 3, op: 0.9 }) + fillR(30, 26, 72, 6, "#fff", 0.05)));
+  save("ui/touch_button_pressed.svg", svg(132, 132, ring(66, 66, P.mustard, 0.95, P.ink, 4) + E(66, 66, 54, 54, "none", { stroke: P.mustardL, sw: 3 }) + shade(16, 82, 100, 26, 0.15)));
+  // virtual stick: base 220x220 with direction ticks, knob 96x96
+  let b = ring(110, 100, "#23211d", 0.45, P.ink, 4) + E(110, 110, 92, 92, "none", { stroke: P.cream, sw: 2, op: 0.35 });
+  for (const [dx, dy] of [[0, -1], [0, 1], [-1, 0], [1, 0]]) {
+    const cx = 110 + dx * 74, cy = 110 + dy * 74, px = -dy, py = dx;
+    b += shape([[cx + dx * 10, cy + dy * 10], [cx + px * 9, cy + py * 9], [cx - px * 9, cy - py * 9]], P.cream, { sw: 1.5, op: 0.6 });
+  }
+  save("ui/touch_stick_base.svg", svg(220, 220, b));
+  save("ui/touch_stick_knob.svg", svg(96, 96, ring(48, 42, P.mustard, 0.95, P.ink, 3.5) + E(48, 48, 30, 30, "none", { stroke: P.mustardL, sw: 3 }) + E(40, 38, 10, 7, "#fff", { stroke: "none", op: 0.25 })));
+  // pause 76x76
+  const pause = (fill, op) => ring(38, 33, fill, op, P.ink, 3.5) + R(26, 23, 8, 30, P.cream, { sw: 2 }) + R(42, 23, 8, 30, P.cream, { sw: 2 });
+  save("ui/touch_pause.svg", svg(76, 76, pause("#23211d", 0.7)));
+  save("ui/touch_pause_pressed.svg", svg(76, 76, pause(P.mustardD, 0.95)));
+  // picker icons 160x120
+  seed = 78;
+  let pc = R(22, 8, 116, 74, P.char, { sw: 3.5 }) + R(30, 15, 100, 58, "#4c6575", { sw: 2 }) + fillR(36, 20, 40, 5, "#fff", 0.15);
+  pc += R(70, 82, 20, 12, P.charL, { sw: 2.5 }) + R(50, 92, 60, 7, P.charL, { sw: 2.5 });
+  pc += shape([[14, 104], [146, 104], [154, 116], [6, 116]], P.beigeL, { sw: 3 });
+  for (let x = 20; x < 140; x += 12) pc += line([[x, 109], [x + 6, 109]], { sw: 2, stroke: P.beigeD });
+  save("ui/icon_pc.svg", svg(160, 120, pc));
+  let ph = R(10, 24, 140, 76, P.char, { sw: 3.5 }) + R(26, 32, 108, 60, "#4c6575", { sw: 2 }) + E(18, 62, 2.5, 2.5, P.charL, { sw: 1 });
+  ph += E(46, 74, 12, 12, "#23211d", { stroke: P.cream, sw: 2, op: 0.8 }) + E(46, 74, 5, 5, P.mustard, { sw: 1.5 });
+  ph += E(110, 68, 8, 8, P.mustard, { sw: 1.5 }) + E(124, 80, 8, 8, P.mustard, { sw: 1.5 });
+  ph += shape([[2, 110], [22, 96], [40, 104], [30, 118], [4, 118]], P.skin, { sw: 2.5 }) + shape([[158, 110], [138, 96], [120, 104], [130, 118], [156, 118]], P.skin, { sw: 2.5 });
+  save("ui/icon_phone.svg", svg(160, 120, ph));
+  // rotate-your-phone hint 200x160
+  let rot = R(20, 40, 70, 110, P.char, { sw: 3.5, op: 0.5 }) + R(80, 70, 110, 70, P.char, { sw: 3.5 }) + R(90, 78, 90, 54, "#4c6575", { sw: 2 });
+  rot += line([[60, 30], [100, 14], [140, 30]], { sw: 4, stroke: P.mustard }) + shape([[140, 30], [128, 18], [146, 18]], P.mustard, { sw: 2 });
+  save("ui/icon_rotate.svg", svg(200, 160, rot));
+}
+
 // ------------------------------------------------------------- backgrounds
 function templeSilhouette(x, base, sc, color) {
   // Square, tiered white-stupa silhouette inspired by Ubon temples (not a copy of any game asset)
@@ -758,26 +795,118 @@ function thaiRoofHouse(x, base, w, h, color, roof) {
     shape([[x - 14, base - h], [x + w + 14, base - h], [x + w / 2, base - h - w * 0.55]], roof, { sw: 2.5 }) +
     line([[x + w / 2, base - h - w * 0.55], [x + w / 2 + 6, base - h - w * 0.55 - 12]], { sw: 2.5 });
 }
+// Main menu: the flooded riverside market hall in Ubon (long red-roofed building on stilts,
+// raft houses, brown floodwater, overcast sky) — redrawn in the game's hand-drawn style.
+function menuBackground(W, H) {
+  seed = 4242;
+  const defs = '<linearGradient id="msky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d8ea0"/><stop offset="0.55" stop-color="#aab6bf"/><stop offset="1" stop-color="#cdd3d4"/></linearGradient>' +
+    '<linearGradient id="mwater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a8a72"/><stop offset="0.35" stop-color="#7d6c55"/><stop offset="1" stop-color="#4f4232"/></linearGradient>';
+  const ROOF = "#c9625a", ROOF_D = "#a1463f", ROOF_L = "#dc8178", WALL = "#ece6da", WALL_D = "#bdb5a8", WIN = "#4a5560", POST = "#e6e0d3";
+  // perspective of the long hall: near end at x = -40, far end at x = 940
+  const X0 = -40, X1 = 940;
+  const k = (x) => Math.min(1, Math.max(0, (x - X0) / (X1 - X0)));
+  const lerp = (a, b, x) => a + (b - a) * k(x);
+  const top = (x) => lerp(150, 352, x), eave = (x) => lerp(262, 370, x), floorB = (x) => lerp(330, 392, x), water = (x) => lerp(500, 410, x);
+
+  let o = fillR(0, 0, W, 430, "url(#msky)");
+  // low rain clouds
+  for (let i = 0; i < 9; i++) o += E(rnd() * W, 40 + rnd() * 220, 140 + rnd() * 160, 18 + rnd() * 16, i % 2 ? "#8995a3" : "#9aa5b1", { stroke: "none", op: 0.6 });
+  // far shore: tree line + small white pavilion on the right
+  for (let x = 880; x < W + 40; x += 34 + rnd() * 20) o += E(x, 398 - rnd() * 14, 30 + rnd() * 16, 18 + rnd() * 10, rnd() > 0.5 ? "#5b6b48" : "#4c5c3d", { sw: 2 });
+  o += fillR(860, 400, W - 860, 14, "#59684a");
+  o += R(1140, 372, 56, 26, "#e9e5dc", { sw: 2 }) + shape([[1132, 374], [1204, 374], [1186, 358], [1150, 358]], "#d5d0c6", { sw: 2 }) + R(1144, 398, 4, 12, POST, { sw: 1.5 }) + R(1188, 398, 4, 12, POST, { sw: 1.5 });
+  o += R(1040, 392, 30, 14, "#c9a989", { sw: 1.8 }) + shape([[1036, 393], [1074, 393], [1066, 384], [1044, 384]], ROOF_D, { sw: 1.8 });
+
+  // water (drawn before the hall so stilts stand in it)
+  o += fillR(0, 404, W, H - 404, "url(#mwater)");
+
+  // white block behind the roofs (the second building)
+  o += R(460, 244, 230, 80, WALL, { sw: 2.5 }) + R(460, 244, 230, 10, WALL_D, { sw: 2 });
+  for (let x = 470; x < 680; x += 22) o += R(x, 262, 13, 10, WIN, { sw: 1.5 });
+
+  // under-floor shadow + stilts standing in the water
+  o += shape([[X0, floorB(X0)], [X1, floorB(X1)], [X1, water(X1)], [X0, water(X0)]], "#3a3530", { sw: 2.5 });
+  for (let x = X0 + 40; x < X1; x += 18 + 60 * (1 - k(x))) {
+    const w = 4 + 8 * (1 - k(x));
+    o += R(x, floorB(x), w, water(x) - floorB(x) + 4, POST, { sw: 2 });
+  }
+  // staircases down into the water
+  for (const sx of [120, 300]) {
+    const b = floorB(sx), wl = water(sx);
+    o += shape([[sx, b], [sx + 14, b], [sx + 70, wl], [sx + 54, wl]], POST, { sw: 2 });
+    for (let t = 0.15; t < 1; t += 0.17) o += line([[sx + 56 * t, b + (wl - b) * t], [sx + 14 + 56 * t, b + (wl - b) * t]], { sw: 1.5 });
+  }
+
+  // upper floor: white wall with a long window strip
+  o += shape([[X0, eave(X0)], [X1, eave(X1)], [X1, floorB(X1)], [X0, floorB(X0)]], WALL, { sw: 3 });
+  o += shape([[X0, floorB(X0) - 10], [X1, floorB(X1) - 4], [X1, floorB(X1)], [X0, floorB(X0)]], WALL_D, { sw: 2 });
+  for (let x = X0 + 30; x < X1 - 10; x += 14 + 30 * (1 - k(x))) {
+    const h = (floorB(x) - eave(x)) * 0.42, y = eave(x) + (floorB(x) - eave(x)) * 0.22, w = 6 + 18 * (1 - k(x));
+    o += R(x, y, w, h, WIN, { sw: 1.5 });
+  }
+
+  // main hip roof (near half of the hall)
+  const rx = 520;
+  o += shape([[X0, eave(X0) + 8], [rx, eave(rx) + 6], [rx - 40, top(rx - 40)], [X0 + 30, top(X0 + 30)]], ROOF, { sw: 3.5 });
+  o += shape([[X0, eave(X0) + 8], [rx, eave(rx) + 6], [rx, eave(rx) - 4], [X0, eave(X0) - 6]], ROOF_D, { sw: 2.5 });
+  for (let i = 1; i < 6; i++) { const f = i / 6; o += line([[X0 + 20, top(X0) + (eave(X0) - top(X0)) * f], [rx - 30, top(rx) + (eave(rx) - top(rx)) * f]], { stroke: ROOF_D, sw: 1.5, op: 0.5 }); }
+  o += line([[X0 + 30, top(X0 + 30)], [rx - 40, top(rx - 40)]], { sw: 3 });
+  // projecting front gable with the hall's name board
+  const gx = 170, gw = 210, gy = eave(gx + gw / 2) + 26;
+  o += shape([[gx, gy], [gx + gw, gy], [gx + gw / 2, gy - 120]], ROOF_L, { sw: 3.5 });
+  o += shape([[gx - 8, gy + 4], [gx + gw / 2, gy - 126], [gx + gw + 8, gy + 4], [gx + gw - 4, gy + 6], [gx + gw / 2, gy - 112], [gx + 4, gy + 6]], ROOF_D, { sw: 2.5 });
+  o += R(gx + 34, gy - 44, gw - 68, 18, "#f2eee4", { sw: 2 });
+  for (let x = gx + 42; x < gx + gw - 44; x += 9) o += fillR(x, gy - 39, 6, 8, "#7a3b33", 0.85);
+  o += shape([[gx + 96, gy - 92], [gx + gw / 2, gy - 104], [gx + gw - 96, gy - 92], [gx + gw / 2, gy - 84]], "#e8c66a", { sw: 1.5 });
+
+  // smaller pavilion roofs receding along the river
+  for (let x = rx - 10; x < X1 - 10;) {
+    const w = 40 + 100 * (1 - k(x)), e = eave(x + w / 2) + 4, h = (eave(x) - top(x)) * 0.5;
+    o += shape([[x - 6, e], [x + w + 6, e], [x + w * 0.8, e - h], [x + w * 0.2, e - h]], ROOF, { sw: 2.5 });
+    o += shape([[x + w * 0.24, e - h], [x + w * 0.5, e - h * 1.5], [x + w * 0.76, e - h]], ROOF_L, { sw: 2.2 });
+    o += shape([[x + w * 0.24, e - h], [x + w * 0.76, e - h], [x + w * 0.7, e - h * 0.88], [x + w * 0.3, e - h * 0.88]], ROOF_D, { sw: 1.8 });
+    o += line([[x - 4, e], [x + w + 4, e]], { stroke: ROOF_D, sw: 3 });
+    x += w * 0.92;
+  }
+
+  // raft house (floating shop) moored in front of the hall
+  const fx = 470, fy = 470;
+  o += R(fx - 6, fy + 18, 196, 12, "#5a4634", { sw: 2.5 });
+  o += R(fx, fy - 24, 82, 44, "#4f87b8", { sw: 2.5 }) + R(fx + 82, fy - 24, 102, 44, "#c4b49a", { sw: 2.5 });
+  o += R(fx + 12, fy - 14, 22, 18, "#2d3a46", { sw: 1.8 }) + R(fx + 104, fy - 14, 26, 24, "#6a5440", { sw: 1.8 }) + R(fx + 142, fy - 14, 28, 14, "#2d3a46", { sw: 1.8 });
+  o += shape([[fx - 16, fy - 22], [fx + 200, fy - 22], [fx + 176, fy - 52], [fx + 8, fy - 52]], "#9aa39a", { sw: 3 });
+  for (let x = fx; x < fx + 190; x += 10) o += line([[x, fy - 50], [x - 4, fy - 24]], { stroke: "#7d877e", sw: 1.2 });
+  o += R(fx + 190, fy - 8, 64, 26, "#c9b79c", { sw: 2.2 }) + shape([[fx + 184, fy - 8], [fx + 260, fy - 8], [fx + 248, fy - 26], [fx + 196, fy - 26]], "#a9aea6", { sw: 2.2 });
+  o += line([[fx - 10, fy + 32], [fx + 260, fy + 32]], { stroke: "#c9b79c", sw: 2, op: 0.6 });
+  // a couple of small boats by the far pavilions
+  o += shape([[760, 418], [772, 426], [826, 426], [836, 416], [826, 420], [772, 420]], "#5a4030", { sw: 2 });
+  o += shape([[868, 414], [876, 420], [912, 420], [920, 412], [912, 416], [876, 416]], "#6a7a8a", { sw: 1.8 });
+
+  // reflections of the roof and the white wall in the muddy water
+  o += shape([[X0, water(X0) + 4], [rx, water(rx) + 4], [rx, water(rx) + 60], [X0, water(X0) + 90]], ROOF, { stroke: "none", op: 0.16 });
+  o += shape([[rx, water(rx) + 4], [X1, water(X1) + 2], [X1, water(X1) + 20], [rx, water(rx) + 40]], ROOF, { stroke: "none", op: 0.12 });
+  // flooded promenade: railing and lamp posts poking out near the camera
+  o += line([[-10, 548], [420, 520]], { sw: 3.5, stroke: "#2c2722" });
+  for (let x = 0; x < 420; x += 34) o += R(x, 548 - x * 0.065 - 2, 4, 20, "#2c2722", { sw: 1.5 });
+  for (const lx of [92, 200]) {
+    const ly = 548 - lx * 0.065;
+    o += R(lx, ly - 70, 5, 84, "#1f1b18", { sw: 1.5 }) + E(lx + 2.5, ly - 74, 6, 7, "#d9d2c0", { sw: 2 });
+  }
+  // ripples
+  for (let i = 0; i < 90; i++) {
+    const y = 420 + rnd() * 300, x = rnd() * W, l = 18 + rnd() * 90 * (y / 720);
+    o += line([[x, y], [x + l, y + jit(1)]], { stroke: i % 3 ? "#b8a68a" : "#3f3427", sw: 1.2 + rnd() * 1.6, op: 0.25 + rnd() * 0.35 });
+  }
+  // drizzle
+  for (let i = 0; i < 140; i++) { const x = rnd() * W, y = rnd() * H; o += line([[x, y], [x - 4, y + 16]], { stroke: "#eef2f3", sw: 1, op: 0.16 }); }
+  return svg(W, H, o, defs);
+}
+
 function backgrounds() {
   seed = 123;
   const W = 1280, H = 720;
-  const defs = `<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#25304a"/><stop offset="0.45" stop-color="#6b5470"/><stop offset="0.72" stop-color="#d98a4e"/><stop offset="1" stop-color="#e9b064"/></linearGradient>
-<linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9774b"/><stop offset="0.25" stop-color="#4c5d68"/><stop offset="1" stop-color="#1d3536"/></linearGradient>`;
-  let s = fillR(0, 0, W, 470, "url(#sky)");
-  for (let i = 0; i < 7; i++) { const cx = rnd() * W, cy = 60 + rnd() * 200; s += E(cx, cy, 120 + rnd() * 120, 14 + rnd() * 12, "#3b3651", { stroke: "none", op: 0.55 }); }
-  s += E(980, 330, 46, 46, "#f3c77d", { stroke: "none", op: 0.9 });
-  s += templeSilhouette(820, 470, 1.6, "#2a2232") + templeSilhouette(560, 470, 0.8, "#3a2e3d");
-  s += thaiRoofHouse(80, 470, 120, 70, "#2a2232", "#221b29") + thaiRoofHouse(250, 470, 90, 50, "#30283a", "#261f2e") + thaiRoofHouse(1080, 470, 110, 60, "#2a2232", "#221b29");
-  s += shape([[0, 470], [1280, 470], [1280, 455], [0, 462]], "#1f1a26", { sw: 0 });
-  s += fillR(0, 470, W, 250, "url(#water)");
-  for (let i = 0; i < 70; i++) { const y = 480 + rnd() * 230, x = rnd() * W, l = 20 + rnd() * 80; s += line([[x, y], [x + l, y + jit(1)]], { stroke: i % 3 ? "#e6a865" : "#8fb1b4", sw: 1.5 + rnd() * 1.5, op: 0.25 + rnd() * 0.35 }); }
-  s += fillR(780, 480, 80, 220, "#f3c77d", 0.12);
-  // Foreground: flooded stilt house + boat
-  s += R(-10, 520, 260, 120, "#1d1a1f", { sw: 3 }) + shape([[-30, 520], [280, 520], [130, 420]], "#151217", { sw: 3 }) + R(40, 548, 50, 40, "#e1a050", { sw: 3 }) + R(150, 548, 50, 40, "#c98a46", { sw: 3 });
-  s += fillR(-10, 600, 280, 120, "#1d3536", 0.85) + line([[-10, 600], [280, 602]], { stroke: "#8fb1b4", sw: 2, op: 0.6 });
-  s += shape([[150, 668], [200, 690], [420, 690], [470, 660], [420, 676], [200, 676]], "#120f12", { sw: 3 }) + line([[300, 676], [292, 600]], { sw: 3, stroke: "#120f12" });
-  for (let i = 0; i < 160; i++) { const x = rnd() * W, y = rnd() * H; s += line([[x, y], [x - 4, y + 16]], { stroke: "#cfdde0", sw: 1, op: 0.18 }); }
-  save("ui/menu_bg.svg", svg(W, H, s, defs));
+  save("ui/menu_bg.svg", menuBackground(W, H));
+  let s;
 
   // Summary background: night, rooftops above the water line, the family's boat waiting
   seed = 321;
@@ -1130,5 +1259,6 @@ part2Art();
 part2bArt();
 part2cArt();
 ui();
+touchUi();
 backgrounds();
 console.log(`generated ${count} svg files`);

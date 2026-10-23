@@ -71,6 +71,23 @@ func show_message(text: String, color: Color = Color("efe2bf")) -> void:
 	_message_tween.tween_callback(message.hide)
 
 
+## Phones: cargo bar moves to the top (thumbs cover the bottom corners), key caps are
+## hidden (the on-screen buttons are labelled) and hints talk about buttons, not keys.
+func apply_mobile_layout() -> void:
+	inventory_bar.anchor_top = 0.0
+	inventory_bar.anchor_bottom = 0.0
+	inventory_bar.offset_top = 14.0
+	inventory_bar.offset_bottom = 134.0
+	# small, between the status panel (left) and the pause button + timer (right)
+	inventory_bar.offset_left += 50.0
+	inventory_bar.offset_right += 50.0
+	inventory_bar.pivot_offset = Vector2(inventory_bar.size.x * 0.5, 0.0)
+	inventory_bar.scale = Vector2(0.5, 0.5)
+	$Root/Prompt/HBox/KeyCap.hide()
+	$Root/BoatPrompt/HBox/KeyCap.hide()
+	$Root/LookCountdown/LookHint.text = "เวลา 60 วินาทีจะเริ่มเมื่อนับถึง 0  ·  แตะปุ่ม หยิบ เพื่อเริ่มทันที"
+
+
 ## Pre-round "look around" countdown: n > 0 shows the number, 0 shows "เริ่ม!" then hides.
 func show_look_countdown(n: int) -> void:
 	look_countdown.show()

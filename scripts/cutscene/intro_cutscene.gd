@@ -48,6 +48,8 @@ var lines_shown: int = 0
 func _ready() -> void:
 	get_tree().paused = false
 	skip_button.pressed.connect(skip)
+	if Platform.is_mobile():
+		$UI/Hint.text = "แตะจอ = บรรทัดถัดไป   ·   ปุ่ม ข้าม = ข้ามทั้งหมด"
 	tv_shot.hide()
 	title_card.hide()
 	subtitle.hide()

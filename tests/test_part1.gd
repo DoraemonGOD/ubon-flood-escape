@@ -6,6 +6,7 @@ extends Node
 const LEVEL_SCENE := preload("res://scenes/scavenging/scavenging.tscn")
 const SUMMARY_SCENE := preload("res://scenes/summary/summary.tscn")
 const INTRO_SCENE := preload("res://scenes/cutscene/intro_cutscene.tscn")
+const MENU_SCENE := preload("res://scenes/main_menu/main_menu.tscn")
 const BOAT_SPOT := Vector2(590, 870) # on the porch, inside the boat interaction zone
 
 var _failures := 0
@@ -23,6 +24,8 @@ func _ready() -> void:
 
 
 func _run() -> void:
+	Platform.save_enabled = false
+	Platform.set_mode(Platform.PC)
 	await _load_level()
 
 	print("\n[movement] walk in every direction, run is faster")
@@ -330,6 +333,80 @@ func _run() -> void:
 		lvl.queue_free()
 		await _frames(2)
 
+	print("\n[platform] chooser on first launch, no Part 2 test button")
+	Platform.mode = Platform.PC
+	Platform.chosen = false
+	var menu: Control = MENU_SCENE.instantiate()
+	add_child(menu)
+	await _frames(2)
+	var picker: PlatformPicker = null
+	for child in menu.get_children():
+		if child is PlatformPicker:
+			picker = child
+	_check(picker != null, "first launch shows the platform picker")
+	_check(not menu.has_node("%Part2TestButton") and menu.find_child("Part2TestButton", true, false) == null, "Part 2 test button removed")
+	picker.mobile_button.pressed.emit()
+	await _frames(2)
+	_check(Platform.is_mobile() and Platform.chosen and not is_instance_valid(picker), "picking mobile saves the choice and closes the picker")
+	_check(menu.platform_button.text.contains("มือถือ") and menu.how_to_body.text.contains("จอยสติ๊ก"), "menu shows the mobile platform + touch how-to")
+	menu.platform_button.pressed.emit()
+	await _frames(2)
+	var picker2: PlatformPicker = menu.get_child(menu.get_child_count() - 1) as PlatformPicker
+	_check(picker2 != null and picker2.can_cancel, "bottom-left button reopens the picker (with cancel)")
+	picker2.pc_button.pressed.emit()
+	await _frames(2)
+	_check(not Platform.is_mobile() and menu.how_to_body.text.contains("WASD"), "switching back to computer")
+	menu.queue_free()
+	await _frames(2)
+
+	print("\n[mobile] touch stick + buttons drive the same actions")
+	Platform.set_mode(Platform.MOBILE)
+	await _load_level()
+	var touch: TouchControls = null
+	for child in _level.get_children():
+		if child is TouchControls:
+			touch = child
+	_check(touch != null, "level adds touch controls on mobile")
+	_check(_hud.inventory_bar.scale.x < 1.0 and _hud.inventory_bar.anchor_top == 0.0, "cargo bar moved to the top")
+	await _stand_at(Vector2(600, 600))
+	var from := _player.global_position
+	_touch(0, Vector2(220, 520), true)
+	_drag(0, Vector2(260, 520))
+	await _physics(2)
+	_check(Input.get_action_strength(&"move_right") > 0.4 and not Input.is_action_pressed(&"run"), "half push = walk right (%.2f)" % Input.get_action_strength(&"move_right"))
+	_drag(0, Vector2(340, 520))
+	await _seconds(0.3)
+	_check(Input.is_action_pressed(&"run") and _player.is_running, "full push = run")
+	_check(_player.global_position.x - from.x > 60.0, "player moved right with the stick (%.0f px)" % (_player.global_position.x - from.x))
+	_touch(0, Vector2(340, 520), false)
+	await _physics(2)
+	_check(not Input.is_action_pressed(&"move_right") and not Input.is_action_pressed(&"run") and _player.velocity == Vector2.ZERO, "lifting the finger stops the player")
+	var rope := _pickup(&"rope")
+	await _stand_at(rope.global_position + Vector2(0, 26))
+	_touch(0, Vector2(220, 520), true) # one finger on the stick ...
+	var center := touch.interact_button.position + touch.interact_button.texture_normal.get_size() * 0.5
+	_touch(1, center, true) # ... and another on "หยิบ"
+	await _physics(2)
+	_touch(1, center, false)
+	_touch(0, Vector2(220, 520), false)
+	_check(_player.state == Player.State.PICKUP, "หยิบ button picks up while the stick is held (multi-touch)")
+	await _seconds(0.6)
+	_check(_player.carry.count() == 1, "rope in hands")
+	var pause_center := touch.pause_button.position + touch.pause_button.texture_normal.get_size() * 0.5
+	_touch(2, pause_center, true)
+	await _frames(2)
+	_touch(2, pause_center, false)
+	var pm: PauseMenu = _level.get_node("PauseMenu")
+	_check(get_tree().paused and pm.visible, "II button pauses")
+	await _frames(2)
+	_check(not touch.visible, "touch controls hide under the pause menu")
+	pm.close()
+	await _frames(2)
+	_check(touch.visible, "touch controls come back after resume")
+	_level.queue_free()
+	await _frames(2)
+	Platform.set_mode(Platform.PC)
+
 	print("\n[thai] Thai glyphs")
 	var font: Font = ThemeDB.get_project_theme().default_font
 	var thai := "น้ำดื่มอาหารกระป๋องยาสามัญไฟฉายแบตเตอรี่เชือกวิทยุพกพาเอกสารสำคัญโยนของขึ้นเรือมือเต็ม"
@@ -407,6 +484,21 @@ func _push(start: Vector2, action: String, ok: Callable, label: String, run := f
 	Input.action_release(action)
 	Input.action_release("run")
 	_check(ok.call(_player.global_position), "%s blocks the player (ended at %s)" % [label, _player.global_position.round()])
+
+
+func _touch(index: int, pos: Vector2, pressed: bool) -> void:
+	var ev := InputEventScreenTouch.new()
+	ev.index = index
+	ev.position = get_tree().root.get_final_transform() * pos # viewport -> window coords
+	ev.pressed = pressed
+	Input.parse_input_event(ev)
+
+
+func _drag(index: int, pos: Vector2) -> void:
+	var ev := InputEventScreenDrag.new()
+	ev.index = index
+	ev.position = get_tree().root.get_final_transform() * pos # viewport -> window coords
+	Input.parse_input_event(ev)
 
 
 func _press(action: StringName) -> void:

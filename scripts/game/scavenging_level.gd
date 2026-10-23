@@ -45,6 +45,9 @@ func _ready() -> void:
 	player.global_position = house.get_player_spawn()
 	player.set_camera_limits(house.camera_limits)
 	hud.bind(player, scavenge_timer)
+	if Platform.is_mobile():
+		add_child(TouchControls.new())
+		hud.apply_mobile_layout()
 	player.carry.item_picked_up.connect(_on_item_picked_up)
 	player.throw_started.connect(_on_throw_started)
 	player.feedback.connect(_on_player_feedback)

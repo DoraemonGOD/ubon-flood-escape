@@ -23,6 +23,7 @@ ItemDatabase="*res://autoload/item_database.gd"
 Inventory="*res://autoload/inventory_manager.gd"
 BoatCargo="*res://autoload/boat_cargo.gd"
 SurvivalState="*res://autoload/survival_state.gd"
+Platform="*res://autoload/platform_settings.gd"
 
 [display]
 

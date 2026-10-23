@@ -11,6 +11,15 @@ func _ready() -> void:
 	for arg in OS.get_cmdline_user_args():
 		var kv := arg.trim_prefix("--").split("=", true, 1)
 		_args[kv[0]] = kv[1] if kv.size() > 1 else ""
+	Platform.save_enabled = false
+	match _args.get("platform", "pc"):
+		"mobile":
+			Platform.set_mode(Platform.MOBILE)
+		"unset":
+			Platform.mode = Platform.PC
+			Platform.chosen = false
+		_:
+			Platform.set_mode(Platform.PC)
 	var shot: String = _args.get("shot", "level")
 	match shot:
 		"menu":
